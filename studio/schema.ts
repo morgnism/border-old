@@ -37,7 +37,7 @@ export type {
 };
 
 /**
- * Post
+ * Blog Post
  *
  *
  */
@@ -47,23 +47,23 @@ export interface Post extends SanityDocument {
   /**
    * Title — `string`
    *
-   *
+   * Keep it short, catchy, and descriptive 👌🏽
    */
   title?: string;
 
   /**
    * Slug — `slug`
    *
-   *
+   * Hint: some frontends will require a slug to be set to be able to show the post
    */
   slug?: { _type: 'slug'; current: string };
 
   /**
-   * Author — `reference`
+   * Published at — `datetime`
    *
-   *
+   * Hint: this can be used to schedule post for publishing
    */
-  author?: SanityReference<Author>;
+  publishedAt?: string;
 
   /**
    * Main image — `image`
@@ -78,6 +78,20 @@ export interface Post extends SanityDocument {
   };
 
   /**
+   * Summary — `summaryPortableText`
+   *
+   * Hint: enhance SEO by including a summary
+   */
+  summary?: SummaryPortableText;
+
+  /**
+   * Author — `reference`
+   *
+   *
+   */
+  author?: SanityReference<Author>;
+
+  /**
    * Categories — `array`
    *
    *
@@ -85,18 +99,34 @@ export interface Post extends SanityDocument {
   categories?: Array<SanityKeyedReference<Category>>;
 
   /**
-   * Published at — `datetime`
+   * Body — `bodyPortableText`
    *
    *
    */
-  publishedAt?: string;
+  body?: BodyPortableText;
+}
+
+/**
+ * Category
+ *
+ *
+ */
+export interface Category extends SanityDocument {
+  _type: 'category';
 
   /**
-   * Body — `blockContent`
+   * Title — `string`
    *
    *
    */
-  body?: BlockContent;
+  title?: string;
+
+  /**
+   * Description — `text`
+   *
+   *
+   */
+  description?: string;
 }
 
 /**
@@ -141,30 +171,28 @@ export interface Author extends SanityDocument {
   bio?: Array<SanityKeyed<SanityBlock>>;
 }
 
-/**
- * Category
- *
- *
- */
-export interface Category extends SanityDocument {
-  _type: 'category';
+export type MainImage = {
+  _type: 'mainImage';
+  asset: SanityReference<SanityImageAsset>;
+  crop?: SanityImageCrop;
+  hotspot?: SanityImageHotspot;
 
   /**
-   * Title — `string`
+   * Caption — `string`
    *
    *
    */
-  title?: string;
+  caption?: string;
 
   /**
-   * Description — `text`
+   * Alternative text — `string`
    *
-   *
+   * Important for accessiblity and SEO.
    */
-  description?: string;
-}
+  alt?: string;
+};
 
-export type BlockContent = Array<
+export type BodyPortableText = Array<
   | SanityKeyed<SanityBlock>
   | SanityKeyed<{
       _type: 'image';
@@ -174,4 +202,6 @@ export type BlockContent = Array<
     }>
 >;
 
-export type Documents = Post | Author | Category;
+export type SummaryPortableText = Array<SanityKeyed<SanityBlock>>;
+
+export type Documents = Post | Category | Author;
