@@ -1,7 +1,7 @@
 import { groq } from 'next-sanity';
 import Image from 'next/image';
 import React from 'react';
-import { Documents } from '../../../studio/schema';
+import { Documents, Post } from '../../../studio/schema';
 import {
   getClient,
   postSlugsQuery,
@@ -9,32 +9,42 @@ import {
   urlForImage,
 } from '../../src/lib';
 import { PortableText } from '@portabletext/react';
+import { NextPage } from 'next';
+
+type PostProps = {
+  post: {
+    name: string;
+    authorImage: string;
+  } & Post;
+};
 
 type PostContext = {
   preview: boolean;
   params: { slug: string };
 };
 
+const PortableImageComponent: React.FC<any> = ({ value }) => {
+  if (!value?.asset?._ref) {
+    return null;
+  }
+  return (
+    <Image
+      src={urlForImage(value).width(320).height(240).url()}
+      alt={value.alt || ' '}
+      loading="lazy"
+      width={50}
+      height={50}
+    />
+  );
+};
+
 const ptComponents = {
   types: {
-    image: ({ value }) => {
-      if (!value?.asset?._ref) {
-        return null;
-      }
-      return (
-        <Image
-          src={urlForImage(value).width(320).height(240).url()}
-          alt={value.alt || ' '}
-          loading="lazy"
-          width={50}
-          height={50}
-        />
-      );
-    },
+    image: PortableImageComponent,
   },
 };
 
-const Post = ({ post }) => {
+const Post: NextPage<PostProps> = ({ post }) => {
   const {
     title = 'Missing title',
     name = 'Missing name',
@@ -51,7 +61,7 @@ const Post = ({ post }) => {
         <ul>
           Posted in
           {categories.map((category) => (
-            <li key={category}>{category}</li>
+            <li key={category._ref}>{category}</li>
           ))}
         </ul>
       )}
@@ -71,6 +81,7 @@ const Post = ({ post }) => {
 };
 
 const query = groq`*[_type == "post" && slug.current == $slug][0]{
+  _id,
   title,
   "name": author->name,
   "categories": categories[]->title,
