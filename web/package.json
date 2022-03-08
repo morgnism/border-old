@@ -6,9 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --config ./.prettierrc --write \"./{src,pages}/**/*{.ts,.json}\""
   },
   "dependencies": {
+    "@portabletext/react": "^1.0.3",
     "@sanity/client": "^3.1.0",
     "@sanity/image-url": "^1.0.1",
     "next": "12.1.0",
@@ -21,6 +23,7 @@
     "@types/react": "17.0.39",
     "eslint": "8.9.0",
     "eslint-config-next": "12.1.0",
+    "prettier": "^2.5.1",
     "typescript": "4.5.5"
   }
 }
