@@ -1,11 +1,9 @@
+import Layout from '@/components/Layout/Layout';
 import type { NextPage } from 'next';
 import { groq } from 'next-sanity';
-import Head from 'next/head';
-import Image from 'next/image';
 import Link from 'next/link';
 import { Post } from '../../studio/schema';
 import { sanityClient } from '../src/lib';
-import styles from '../styles/Home.module.css';
 
 type HomeProps = {
   posts: Post[];
@@ -13,7 +11,10 @@ type HomeProps = {
 
 const Home: NextPage<HomeProps> = ({ posts }) => {
   return (
-    <div>
+    <Layout
+      title="Home"
+      description="BorderDev blog featuring Software Engineering tips, concepts, and practical examples."
+    >
       <h1>Welcome to a blog!</h1>
       {posts.length > 0 &&
         posts.map(
@@ -27,7 +28,7 @@ const Home: NextPage<HomeProps> = ({ posts }) => {
               </li>
             ),
         )}
-    </div>
+    </Layout>
   );
 };
 

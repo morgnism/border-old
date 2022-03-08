@@ -1,3 +1,6 @@
+import Layout from '@/components/Layout/Layout';
+import { PortableText } from '@portabletext/react';
+import { NextPage } from 'next';
 import { groq } from 'next-sanity';
 import Image from 'next/image';
 import React from 'react';
@@ -8,13 +11,12 @@ import {
   sanityClient,
   urlForImage,
 } from '../../src/lib';
-import { PortableText } from '@portabletext/react';
-import { NextPage } from 'next';
 
 type PostProps = {
   post: {
     name: string;
     authorImage: string;
+    excerpt?: string;
   } & Post;
 };
 
@@ -50,33 +52,36 @@ const Post: NextPage<PostProps> = ({ post }) => {
     name = 'Missing name',
     categories,
     authorImage,
+    excerpt = '',
     body = [],
   } = post;
 
   return (
-    <article>
-      <h1>{title}</h1>
-      <span>By {name}</span>
-      {categories && (
-        <ul>
-          Posted in
-          {categories.map((category) => (
-            <li key={category._ref}>{category}</li>
-          ))}
-        </ul>
-      )}
-      {authorImage && (
-        <div>
-          <Image
-            src={urlForImage(authorImage).width(50).url()}
-            alt={name}
-            width={50}
-            height={50}
-          />
-        </div>
-      )}
-      <PortableText value={body} components={ptComponents} />
-    </article>
+    <Layout title={title} description={excerpt}>
+      <article>
+        <h1>{title}</h1>
+        <span>By {name}</span>
+        {categories && (
+          <ul>
+            Posted in
+            {categories.map((category) => (
+              <li key={category as unknown as string}>{category}</li>
+            ))}
+          </ul>
+        )}
+        {authorImage && (
+          <div>
+            <Image
+              src={urlForImage(authorImage).width(50).url()}
+              alt={name}
+              width={50}
+              height={50}
+            />
+          </div>
+        )}
+        <PortableText value={body} components={ptComponents} />
+      </article>
+    </Layout>
   );
 };
 
