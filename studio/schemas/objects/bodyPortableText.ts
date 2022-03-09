@@ -8,6 +8,19 @@
  *    type: 'bodyPortableText'
  *  }
  */
+import {
+  BiBold,
+  BiCode,
+  BiHighlight,
+  BiItalic,
+  BiLink,
+  BiLinkExternal,
+  BiListOl,
+  BiListUl,
+  BiStrikethrough,
+  BiUnderline,
+} from 'react-icons/bi';
+
 export default {
   title: 'Block Content',
   name: 'bodyPortableText',
@@ -27,28 +40,112 @@ export default {
         { title: 'H3', value: 'h3' },
         { title: 'H4', value: 'h4' },
         { title: 'Quote', value: 'blockquote' },
+        { title: 'Hidden', value: 'blockComment' },
       ],
-      lists: [{ title: 'Bullet', value: 'bullet' }],
+      lists: [
+        {
+          title: 'Bullet',
+          value: 'bullet',
+          blockEditor: {
+            icon: BiListUl,
+          },
+        },
+        {
+          title: 'Numbered',
+          value: 'number',
+          blockEditor: {
+            icon: BiListOl,
+          },
+        },
+      ],
       // Marks let you mark up inline text in the block editor.
       marks: {
         // Decorators usually describe a single property – e.g. a typographic
         // preference or highlighting by editors.
         decorators: [
-          { title: 'Strong', value: 'strong' },
-          { title: 'Emphasis', value: 'em' },
-          { title: 'Code', value: 'code' },
+          {
+            title: 'Strong',
+            value: 'strong',
+            blockEditor: {
+              icon: BiBold,
+            },
+          },
+          {
+            title: 'Emphasis',
+            value: 'em',
+            blockEditor: {
+              icon: BiItalic,
+            },
+          },
+          {
+            title: 'Code',
+            value: 'code',
+            blockEditor: {
+              icon: BiCode,
+            },
+          },
+          {
+            title: 'Underline',
+            value: 'underline',
+            blockEditor: {
+              icon: BiUnderline,
+            },
+          },
+          {
+            title: 'Strike-through',
+            value: 'strike-through',
+            blockEditor: {
+              icon: BiStrikethrough,
+            },
+          },
+          {
+            title: 'Highlight',
+            value: 'highlight',
+            blockEditor: {
+              icon: BiHighlight,
+            },
+          },
         ],
         // Annotations can be any object structure – e.g. a link or a footnote.
         annotations: [
           {
-            title: 'URL',
-            name: 'link',
+            title: 'Internal link',
+            name: 'internalLink',
             type: 'object',
+            blockEditor: {
+              icon: BiLink,
+            },
+            fields: [
+              {
+                name: 'reference',
+                type: 'reference',
+                to: [{ type: 'post' }, { type: 'author' }],
+              },
+            ],
+          },
+          {
+            title: 'External Link',
+            name: 'externalLink',
+            type: 'object',
+            blockEditor: {
+              icon: BiLinkExternal,
+            },
             fields: [
               {
                 title: 'URL',
                 name: 'href',
                 type: 'url',
+                validation: (Rule) =>
+                  Rule.uri({
+                    allowRelative: true,
+                    scheme: ['https', 'http', 'mailto', 'tel'],
+                  }),
+              },
+              {
+                title: 'Open in new tab',
+                name: 'blank',
+                description: 'Read https://css-tricks.com/use-target_blank/',
+                type: 'boolean',
               },
             ],
           },
@@ -59,8 +156,11 @@ export default {
     // primitive types such as 'string' and 'number' in the same array
     // as a block type.
     {
-      type: 'image',
+      type: 'mainImage',
       options: { hotspot: true },
+    },
+    {
+      type: 'code',
     },
   ],
 };

@@ -20,29 +20,19 @@ export default {
     {
       name: 'image',
       title: 'Image',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
+      type: 'mainImage',
     },
     {
       name: 'bio',
-      title: 'Bio',
-      type: 'array',
-      of: [
-        {
-          title: 'Block',
-          type: 'block',
-          styles: [{title: 'Normal', value: 'normal'}],
-          lists: [],
-        },
-      ],
+      type: 'bioPortableText',
+      title: 'Biography',
     },
   ],
   preview: {
     select: {
       title: 'name',
+      subtitle: 'slug.current',
       media: 'image',
     },
   },
-}
+};

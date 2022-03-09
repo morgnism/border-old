@@ -31,10 +31,7 @@ export default {
     {
       name: 'mainImage',
       title: 'Main image',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
+      type: 'mainImage',
     },
     {
       name: 'summary',
@@ -72,7 +69,7 @@ export default {
       const post = {
         title,
         media,
-        subtitle: author && `By ${author}`,
+        subtitle: author && `by ${author}`,
       };
 
       if (publishedAt) {

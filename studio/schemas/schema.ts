@@ -13,6 +13,7 @@ import post from './documents/post';
 // Object types
 import summaryPortableText from './objects/summaryPortableText';
 import mainImage from './objects/mainImage';
+import bioPortableText from './objects/bioPortableText';
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -28,6 +29,7 @@ export default createSchema({
     author,
     mainImage,
     bodyPortableText,
+    bioPortableText,
     summaryPortableText,
 
     // When added to this list, object types can be used as
