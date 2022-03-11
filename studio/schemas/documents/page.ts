@@ -1,8 +1,10 @@
-// Create the Page document
+import { BiFileBlank } from 'react-icons/bi';
+
 export default {
   name: 'page',
   title: 'Page',
   type: 'document',
+  icon: BiFileBlank,
   fields: [
     {
       name: 'title',

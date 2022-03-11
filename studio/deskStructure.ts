@@ -1,4 +1,6 @@
 import S from '@sanity/desk-tool/structure-builder';
+import { IconType } from 'react-icons';
+import { BiCode, BiCog, BiFolder } from 'react-icons/bi';
 
 const hiddenDocTypes = (listItem): boolean =>
   !['siteSettings'].includes(listItem.getId());
@@ -10,10 +12,11 @@ export default () =>
       // creates singleton
       createMainNode(
         'Settings',
+        BiCog,
         // creates sub panel
         createChildNode('Config', [
           // creates editable view
-          createChildListItem('Metadata', 'siteSettings'),
+          createChildListItem('Metadata', BiCode, 'siteSettings'),
         ]),
       ),
       S.divider(),
@@ -23,15 +26,21 @@ export default () =>
 
 const createMainNode = (
   panelTitle: string,
+  icon: IconType = BiFolder,
   subPanelItem: ReturnType<typeof createChildNode>,
-) => S.listItem().title(panelTitle).child(subPanelItem);
+) => S.listItem().icon(icon).title(panelTitle).child(subPanelItem);
 
 const createChildNode = (
   subPanelTitle: string,
   subPanelListItems: ReturnType<typeof createChildListItem>[],
 ) => S.list().title(subPanelTitle).items(subPanelListItems);
 
-const createChildListItem = (title: string, schemaType: string) =>
+const createChildListItem = (
+  title: string,
+  icon: IconType = BiFolder,
+  schemaType: string,
+) =>
   S.listItem()
+    .icon(icon)
     .title(title)
     .child(S.document().schemaType(schemaType).documentId(schemaType));

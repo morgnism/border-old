@@ -1,9 +1,11 @@
 import { format, parseISO } from 'date-fns';
+import { BiEdit } from 'react-icons/bi';
 
 export default {
   name: 'post',
   title: 'Blog Post',
   type: 'document',
+  icon: BiEdit,
   fields: [
     {
       name: 'title',
