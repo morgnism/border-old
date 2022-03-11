@@ -10,12 +10,15 @@ import bodyPortableText from './objects/bodyPortableText';
 import category from './documents/category';
 import post from './documents/post';
 import page from './documents/page';
+import siteSettings from './documents/siteSettings';
+import navigation from './documents/navigation';
 
 // Object types
 import summaryPortableText from './objects/summaryPortableText';
 import mainImage from './objects/mainImage';
 import bioPortableText from './objects/bioPortableText';
-import siteSettings from './documents/siteSettings';
+import navigationItem from './objects/navigationItem';
+import link from './objects/link';
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -31,10 +34,13 @@ export default createSchema({
     category,
     author,
     siteSettings,
+    navigation,
     mainImage,
     bodyPortableText,
     bioPortableText,
     summaryPortableText,
+    navigationItem,
+    link,
 
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas

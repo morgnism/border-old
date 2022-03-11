@@ -1,4 +1,3 @@
-// /deskStructure.js
 import S from '@sanity/desk-tool/structure-builder';
 
 const hiddenDocTypes = (listItem): boolean =>
@@ -9,19 +8,30 @@ export default () =>
     .title('Base')
     .items([
       // creates singleton
-      S.listItem()
-        .title('Settings')
-        .child(
-          S.list()
-            .title('Config')
-            .items([creteListItem('Metadata', 'siteSettings')]),
-        ),
+      createMainNode(
+        'Settings',
+        // creates sub panel
+        createChildNode('Config', [
+          // creates editable view
+          createChildListItem('Metadata', 'siteSettings'),
+        ]),
+      ),
       S.divider(),
       // batch displays other schemaTypes
       ...S.documentTypeListItems().filter(hiddenDocTypes),
     ]);
 
-const creteListItem = (title: string, schemaType: string) =>
+const createMainNode = (
+  panelTitle: string,
+  subPanelItem: ReturnType<typeof createChildNode>,
+) => S.listItem().title(panelTitle).child(subPanelItem);
+
+const createChildNode = (
+  subPanelTitle: string,
+  subPanelListItems: ReturnType<typeof createChildListItem>[],
+) => S.list().title(subPanelTitle).items(subPanelListItems);
+
+const createChildListItem = (title: string, schemaType: string) =>
   S.listItem()
     .title(title)
     .child(S.document().schemaType(schemaType).documentId(schemaType));
