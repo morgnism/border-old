@@ -14,6 +14,7 @@ import post from './documents/post';
 import summaryPortableText from './objects/summaryPortableText';
 import mainImage from './objects/mainImage';
 import bioPortableText from './objects/bioPortableText';
+import siteSettings from './documents/siteSettings';
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -27,6 +28,7 @@ export default createSchema({
     post,
     category,
     author,
+    siteSettings,
     mainImage,
     bodyPortableText,
     bioPortableText,

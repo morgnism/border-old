@@ -9,6 +9,9 @@
   "scripts": {
     "start": "sanity start",
     "build": "sanity build",
+    "format": "prettier --config ./.prettierrc --write \"**/*{.ts,.json}\"",
+    "lint": "eslint .",
+    "test": "sanity check",
     "generate": "npx sanity-codegen"
   },
   "keywords": [
