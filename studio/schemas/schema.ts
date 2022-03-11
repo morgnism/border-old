@@ -9,6 +9,7 @@ import author from './documents/author';
 import bodyPortableText from './objects/bodyPortableText';
 import category from './documents/category';
 import post from './documents/post';
+import page from './documents/page';
 
 // Object types
 import summaryPortableText from './objects/summaryPortableText';
@@ -25,6 +26,7 @@ export default createSchema({
   types: schemaTypes.concat([
     // The following are document types which will appear
     // in the studio.
+    page,
     post,
     category,
     author,
