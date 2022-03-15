@@ -3,7 +3,7 @@ import { BiEdit } from 'react-icons/bi';
 
 export default {
   name: 'post',
-  title: 'Blog Post',
+  title: 'Articles',
   type: 'document',
   icon: BiEdit,
   fields: [
