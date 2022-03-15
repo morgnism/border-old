@@ -3,7 +3,7 @@ import { IconType } from 'react-icons';
 import { BiCode, BiCog, BiFolder } from 'react-icons/bi';
 
 const hiddenDocTypes = (listItem): boolean =>
-  !['siteSettings'].includes(listItem.getId());
+  !['siteSettings', 'theme'].includes(listItem.getId());
 
 export default () =>
   S.list()
@@ -17,6 +17,7 @@ export default () =>
         createChildNode('Config', [
           // creates editable view
           createChildListItem('Metadata', BiCode, 'siteSettings'),
+          createChildListItem('Theme', BiCode, 'theme'),
         ]),
       ),
       S.divider(),

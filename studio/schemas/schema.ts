@@ -12,6 +12,7 @@ import post from './documents/post';
 import page from './documents/page';
 import siteSettings from './documents/siteSettings';
 import navigation from './documents/navigation';
+import theme from './documents/theme';
 
 // Object types
 import summaryPortableText from './objects/summaryPortableText';
@@ -41,6 +42,7 @@ export default createSchema({
     summaryPortableText,
     navigationItem,
     link,
+    theme,
 
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas

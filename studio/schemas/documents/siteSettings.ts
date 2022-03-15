@@ -1,5 +1,3 @@
-import { BiCog } from 'react-icons/bi';
-
 export default {
   name: 'siteSettings',
   title: 'Site Settings',
