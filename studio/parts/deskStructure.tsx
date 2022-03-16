@@ -32,6 +32,14 @@ export const getDefaultDocumentNode = ({ documentId, schemaType }) => {
 const hiddenDocTypes = (listItem): boolean =>
   !['siteSettings', 'post', 'theme', 'navigation'].includes(listItem.getId());
 
+/**
+ * TODO - add these list items
+ * - Favicons (Metadata)
+ * - Social links (Metadata and by author)
+ * - Analytics (Metadata)
+ * - Header and Footer (Sections)
+ */
+
 export default () =>
   S.list()
     .title('Content')

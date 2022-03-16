@@ -1,5 +1,5 @@
 {
-  "name": "borderblog",
+  "name": "borderdevstudio",
   "private": true,
   "version": "1.0.0",
   "description": "",
@@ -7,10 +7,10 @@
   "author": "Morgan Worrell <morgan@thisdot.co>",
   "license": "UNLICENSED",
   "scripts": {
-    "start": "sanity start",
+    "dev": "sanity start",
     "build": "sanity build",
-    "format": "prettier --config ./.prettierrc --write \"**/*{.ts,.json}\"",
     "lint": "eslint .",
+    "format": "prettier --config ./.prettierrc --write \"**/*{.ts,.json}\"",
     "test": "sanity check",
     "generate": "npx sanity-codegen"
   },
