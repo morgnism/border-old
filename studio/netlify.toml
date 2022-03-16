@@ -1,0 +1,9 @@
+[[redirects]]
+  from = "/*"
+  to = "/"
+  status = 200
+
+[build]
+  base = "/"
+  publish = "//studio/dist/"
+  command = "yarn build-studio && cp ./studio/netlify.toml ./studio/dist"
