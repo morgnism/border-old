@@ -1,2 +1,11 @@
+# Mac files
+.DS_Store
+
 # dependencies
-node_modules
+node_modules/
+
+# build directories
+dist/
+
+# lerna files
+lerna-debug.log
