@@ -37,7 +37,49 @@ export type {
 };
 
 /**
- * Blog Post
+ * Page
+ *
+ *
+ */
+export interface Page extends SanityDocument {
+  _type: 'page';
+
+  /**
+   * Title — `string`
+   *
+   * Name of the page to generate
+   */
+  title?: string;
+
+  /**
+   * Slug — `slug`
+   *
+   * Hint: some frontends will require a slug to be set to be able to show the post
+   */
+  slug?: { _type: 'slug'; current: string };
+
+  /**
+   * Main image — `image`
+   *
+   *
+   */
+  mainImage?: {
+    _type: 'image';
+    asset: SanityReference<SanityImageAsset>;
+    crop?: SanityImageCrop;
+    hotspot?: SanityImageHotspot;
+  };
+
+  /**
+   * Body — `bodyPortableText`
+   *
+   *
+   */
+  body?: BodyPortableText;
+}
+
+/**
+ * Articles
  *
  *
  */
@@ -66,16 +108,11 @@ export interface Post extends SanityDocument {
   publishedAt?: string;
 
   /**
-   * Main image — `image`
+   * Main image — `mainImage`
    *
    *
    */
-  mainImage?: {
-    _type: 'image';
-    asset: SanityReference<SanityImageAsset>;
-    crop?: SanityImageCrop;
-    hotspot?: SanityImageHotspot;
-  };
+  mainImage?: MainImage;
 
   /**
    * Summary — `summaryPortableText`
@@ -107,7 +144,7 @@ export interface Post extends SanityDocument {
 }
 
 /**
- * Category
+ * Categories
  *
  *
  */
@@ -152,23 +189,177 @@ export interface Author extends SanityDocument {
   slug?: { _type: 'slug'; current: string };
 
   /**
-   * Image — `image`
+   * Image — `mainImage`
    *
    *
    */
-  image?: {
-    _type: 'image';
-    asset: SanityReference<SanityImageAsset>;
-    crop?: SanityImageCrop;
-    hotspot?: SanityImageHotspot;
+  image?: MainImage;
+
+  /**
+   * Biography — `bioPortableText`
+   *
+   *
+   */
+  bio?: BioPortableText;
+}
+
+/**
+ * Site Settings
+ *
+ *
+ */
+export interface SiteSettings extends SanityDocument {
+  _type: 'siteSettings';
+
+  /**
+   * Site Title — `string`
+   *
+   * Default tile metadata to be displayed on each page
+   */
+  title?: string;
+
+  /**
+   * Site Description — `text`
+   *
+   * Describe your blog for search engines and social media.
+   */
+  description?: string;
+
+  /**
+   * Site URL — `string`
+   *
+   * The default canonical address for SEO optimization. Read more: https://moz.com/learn/seo/canonicalization
+   */
+  url?: string;
+
+  /**
+   * frontpage — `reference`
+   *
+   * Choose page to be the frontpage. If no page specified, the default will be used.
+   */
+  frontpage?: SanityReference<Page>;
+
+  /**
+   * Main navigation — `reference`
+   *
+   * Select menu for main navigation
+   */
+  mainNav?: SanityReference<Navigation>;
+
+  /**
+   * Social navigation — `reference`
+   *
+   * Select menu for external social links.
+   */
+  socialNav?: SanityReference<Navigation>;
+}
+
+/**
+ * Navigation
+ *
+ *
+ */
+export interface Navigation extends SanityDocument {
+  _type: 'navigation';
+
+  /**
+   * Title — `string`
+   *
+   *
+   */
+  title?: string;
+
+  /**
+   * Slug — `slug`
+   *
+   *
+   */
+  slug?: { _type: 'slug'; current: string };
+
+  /**
+   * Menu — `array`
+   *
+   * Select pages for the main navigation
+   */
+  items?: Array<SanityKeyed<NavigationItem>>;
+}
+
+/**
+ * Theme
+ *
+ *
+ */
+export interface Theme extends SanityDocument {
+  _type: 'theme';
+
+  /**
+   * Title — `string`
+   *
+   *
+   */
+  title?: string;
+
+  /**
+   * Background — `object`
+   *
+   *
+   */
+  background?: {
+    _type: 'background';
+    /**
+     * Background color — `string`
+     *
+     * Specify a color hex to use as the background.
+     */
+    backgroundColor?: string;
+
+    /**
+     * Background image — `image`
+     *
+     * Add an image to use as the background.
+     */
+    backgroundImage?: {
+      _type: 'image';
+      asset: SanityReference<SanityImageAsset>;
+      crop?: SanityImageCrop;
+      hotspot?: SanityImageHotspot;
+    };
   };
 
   /**
-   * Bio — `array`
+   * Heading 1 — `color`
    *
-   *
+   * Set the heading 1 color.
    */
-  bio?: Array<SanityKeyed<SanityBlock>>;
+  headingOne?: Color;
+
+  /**
+   * Heading 2 — `color`
+   *
+   * Set the heading 2 color.
+   */
+  headingTwo?: Color;
+
+  /**
+   * Heading — `color`
+   *
+   * Set the heading 3 color.
+   */
+  headingThree?: Color;
+
+  /**
+   * Accent — `color`
+   *
+   * Set the color for links.
+   */
+  accent?: Color;
+
+  /**
+   * Typography — `string`
+   *
+   * Set the fonts for the site.
+   */
+  typography?: string;
 }
 
 export type MainImage = {
@@ -193,15 +384,66 @@ export type MainImage = {
 };
 
 export type BodyPortableText = Array<
-  | SanityKeyed<SanityBlock>
-  | SanityKeyed<{
-      _type: 'image';
-      asset: SanityReference<SanityImageAsset>;
-      crop?: SanityImageCrop;
-      hotspot?: SanityImageHotspot;
-    }>
+  SanityKeyed<SanityBlock> | SanityKeyed<MainImage> | SanityKeyed<Code>
 >;
+
+export type BioPortableText = Array<SanityKeyed<SanityBlock>>;
 
 export type SummaryPortableText = Array<SanityKeyed<SanityBlock>>;
 
-export type Documents = Post | Category | Author;
+export type NavigationItem = {
+  _type: 'navigationItem';
+  /**
+   * Navigation Text — `string`
+   *
+   *
+   */
+  text?: string;
+
+  /**
+   * Navigation Item URL — `link`
+   *
+   *
+   */
+  url?: Link;
+};
+
+export type Link = {
+  _type: 'link';
+  /**
+   * Internal Link — `reference`
+   *
+   * Select page or post for navigation
+   */
+  internalLink?: SanityReference<Page | Post>;
+
+  /**
+   * External URL — `url`
+   *
+   * Use fully qualified URLS for external link
+   */
+  externalUrl?: string;
+};
+
+export type Documents =
+  | Page
+  | Post
+  | Category
+  | Author
+  | SiteSettings
+  | Navigation
+  | Theme;
+
+/**
+ * This interface is a stub. It was referenced in your sanity schema but
+ * the definition was not actually found. Future versions of
+ * sanity-codegen will let you type this explicity.
+ */
+type Color = any;
+
+/**
+ * This interface is a stub. It was referenced in your sanity schema but
+ * the definition was not actually found. Future versions of
+ * sanity-codegen will let you type this explicity.
+ */
+type Code = any;
