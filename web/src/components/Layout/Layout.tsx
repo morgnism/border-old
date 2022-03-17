@@ -23,6 +23,7 @@ const Layout: React.FC<LayoutProps> = ({
       <meta content={description} name="description" />
       <meta content={description} property="og:description" />
       <meta content={description} name="twitter:description" />
+      {/* TODO: add meta for tweets */}
     </Head>
     <div className="relative flex flex-col min-h-screen">
       {/* TODO: add global header */}
