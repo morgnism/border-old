@@ -1,22 +1,19 @@
 import Layout from '@/components/Layout/Layout';
 import { PortableText } from '@portabletext/react';
 import { NextPage } from 'next';
-import { groq } from 'next-sanity';
 import Image from 'next/image';
 import React from 'react';
-import { Documents, Post } from '../../../studio/schema';
-import {
-  getClient,
-  postSlugsQuery,
-  sanityClient,
-  urlForImage,
-} from '../../src/lib';
+import { Documents, Post, SiteSettings } from '../../../studio/schema';
+import { getClient, sanityClient } from '@/lib/sanity-client';
+import { urlForImage } from '@/lib/sanity';
+import { groq } from 'next-sanity';
 
 type PostProps = {
+  siteTitle: string;
   post: {
-    name: string;
+    authorName: string;
     authorImage: string;
-    excerpt?: string;
+    description: string;
   } & Post;
 };
 
@@ -46,21 +43,22 @@ const ptComponents = {
   },
 };
 
-const Post: NextPage<PostProps> = ({ post }) => {
+const Post: NextPage<PostProps> = ({ siteTitle, post }) => {
   const {
     title = 'Missing title',
-    name = 'Missing name',
+    authorName = 'Missing name',
     categories,
     authorImage,
-    excerpt = '',
+    description,
     body = [],
   } = post;
+  const pageTitle = `${siteTitle} | ${title}`;
 
   return (
-    <Layout title={title} description={excerpt}>
+    <Layout title={pageTitle} description={description}>
       <article>
         <h1>{title}</h1>
-        <span>By {name}</span>
+        <span>By {authorName}</span>
         {categories && (
           <ul>
             Posted in
@@ -73,7 +71,7 @@ const Post: NextPage<PostProps> = ({ post }) => {
           <div>
             <Image
               src={urlForImage(authorImage).width(50).url()}
-              alt={name}
+              alt={authorName}
               width={50}
               height={50}
             />
@@ -85,27 +83,39 @@ const Post: NextPage<PostProps> = ({ post }) => {
   );
 };
 
-const query = groq`*[_type == "post" && slug.current == $slug][0]{
+const siteMetadataQuery = groq`
+*[_type == "siteSettings"][0].title
+`;
+
+const postBySlugQuery = groq`
+*[_type == "post" && slug.current == $slug][0]{
   _id,
   title,
-  "name": author->name,
+  "authorName": author->name,
   "categories": categories[]->title,
   "authorImage": author->image,
-  body
+  body,
+  "description": summary[0].children[0].text
 }`;
+
+const postSlugsQuery = groq`
+*[_type == "post" && defined(slug.current)][].slug.current
+`;
 
 export const getStaticProps = async ({
   params,
   preview = false,
 }: PostContext) => {
   // It's important to default the slug so that it doesn't return "undefined"
+  const siteTitle = await sanityClient.fetch<SiteSettings>(siteMetadataQuery);
   const { slug = '' } = params;
-  const post = await getClient(preview).fetch<Documents>(query, {
+  const post = await getClient(preview).fetch<Documents>(postBySlugQuery, {
     slug,
   });
 
   return {
     props: {
+      siteTitle,
       post,
     },
   };

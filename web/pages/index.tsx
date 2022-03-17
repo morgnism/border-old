@@ -1,17 +1,17 @@
 import Layout from '@/components/Layout/Layout';
+import { sanityClient } from '@/lib/sanity-client';
+import { overlayDrafts } from '@/utils/overlayDrafts';
 import type { NextPage } from 'next';
 import { groq } from 'next-sanity';
 import Link from 'next/link';
 import { Post, SiteSettings } from '../../studio/schema';
-import { sanityClient } from '../src/lib';
-import { overlayDrafts } from '../src/utils';
 
 type HomeProps = {
   metaData: SiteSettings;
   allPosts: Post[];
 };
 
-const Home: NextPage<HomeProps> = ({ allPosts, metaData }) => {
+const Home: NextPage<HomeProps> = ({ metaData, allPosts }) => {
   const homeTitle = `${metaData.title!} | Home`;
 
   return (
@@ -33,7 +33,7 @@ const Home: NextPage<HomeProps> = ({ allPosts, metaData }) => {
   );
 };
 
-const siteMetadataQuery = groq`
+const homeMetadataQuery = groq`
 *[_type == "siteSettings"][0]{
   title,
   description,
@@ -46,7 +46,7 @@ const allPostsQuery = groq`
 `;
 
 export async function getStaticProps() {
-  const metaData = await sanityClient.fetch<SiteSettings>(siteMetadataQuery);
+  const metaData = await sanityClient.fetch<SiteSettings>(homeMetadataQuery);
   const allPosts = overlayDrafts(
     await sanityClient.fetch<Post[]>(allPostsQuery),
   );

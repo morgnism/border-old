@@ -13,21 +13,3 @@ export const siteMetadataQuery = groq`
   }
 }
 `;
-
-export const allPostsQuery = groq`
-*[_type == "post" && publishedAt < now()] | order(publishedAt desc)
-`;
-
-export const postSlugsQuery = groq`
-*[_type == "post" && defined(slug.current)][].slug.current
-`;
-
-export const postBySlugQuery = groq`
-*[_type == "post" && slug.current == $slug][0]{
-  _id,
-  title,
-  "name": author->name,
-  "categories": categories[]->title,
-  "authorImage": author->image,
-  body
-}`;
