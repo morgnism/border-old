@@ -2,22 +2,23 @@ import Layout from '@/components/Layout/Layout';
 import type { NextPage } from 'next';
 import { groq } from 'next-sanity';
 import Link from 'next/link';
-import { Post } from '../../studio/schema';
+import { Post, SiteSettings } from '../../studio/schema';
 import { sanityClient } from '../src/lib';
+import { overlayDrafts } from '../src/utils';
 
 type HomeProps = {
-  posts: Post[];
+  metaData: SiteSettings;
+  allPosts: Post[];
 };
 
-const Home: NextPage<HomeProps> = ({ posts }) => {
+const Home: NextPage<HomeProps> = ({ allPosts, metaData }) => {
+  const homeTitle = `${metaData.title!} | Home`;
+
   return (
-    <Layout
-      title="Home"
-      description="BorderDev blog featuring Software Engineering tips, concepts, and practical examples."
-    >
-      <h1>Welcome to a blog!</h1>
-      {posts.length > 0 &&
-        posts.map(
+    <Layout title={homeTitle} description={metaData.description!}>
+      <h1 className="text-3xl font-bold underline">Welcome to a blog!</h1>
+      {allPosts.length > 0 &&
+        allPosts.map(
           ({ _id, title = '', slug, publishedAt = '' }) =>
             slug && (
               <li key={_id}>
@@ -32,13 +33,28 @@ const Home: NextPage<HomeProps> = ({ posts }) => {
   );
 };
 
+const siteMetadataQuery = groq`
+*[_type == "siteSettings"][0]{
+  title,
+  description,
+  url
+}
+`;
+
+const allPostsQuery = groq`
+*[_type == "post" && publishedAt < now()] | order(_updatedAt desc)
+`;
+
 export async function getStaticProps() {
-  const posts = await sanityClient.fetch<Post[]>(groq`
-      *[_type == "post" && publishedAt < now()] | order(publishedAt desc)
-    `);
+  const metaData = await sanityClient.fetch<SiteSettings>(siteMetadataQuery);
+  const allPosts = overlayDrafts(
+    await sanityClient.fetch<Post[]>(allPostsQuery),
+  );
+
   return {
     props: {
-      posts,
+      metaData,
+      allPosts,
     },
   };
 }

@@ -13,11 +13,14 @@
     "@sanity/default-login",
     "@sanity/desk-tool",
     "@sanity/code-input",
-    "@sanity/color-input"
+    "@sanity/color-input",
+    "@andre-brdoch/sanity-plugin-schema-inspector"
   ],
   "env": {
     "development": {
-      "plugins": ["@sanity/vision"]
+      "plugins": [
+        "@sanity/vision"
+      ]
     }
   },
   "parts": [
