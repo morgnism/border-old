@@ -7,25 +7,11 @@ export default {
   icon: BiNavigation,
   fields: [
     {
-      name: 'title',
-      title: 'Title',
-      type: 'string',
-    },
-    {
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
-      options: {
-        source: 'title',
-        maxLength: 96,
-      },
-    },
-    {
-      name: 'items',
-      title: 'Menu',
+      name: 'sections',
+      title: 'Sections',
       type: 'array',
-      description: 'Select pages for the main navigation',
-      of: [{ type: 'navigationItem' }],
+      description: 'Create nav menus with links for sections of the site.',
+      of: [{ type: 'navigationSection' }],
     },
   ],
 };
