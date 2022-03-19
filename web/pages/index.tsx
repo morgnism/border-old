@@ -1,6 +1,6 @@
-import Layout from '@/components/Layout/Layout';
-import { sanityClient } from '@/lib/sanity-client';
-import { overlayDrafts } from '@/utils/overlayDrafts';
+import Layout from '@components/Layout/Layout';
+import { sanityClient } from '@lib/sanity-client';
+import { overlayDrafts } from '@utils/overlayDrafts';
 import type { NextPage } from 'next';
 import { groq } from 'next-sanity';
 import Link from 'next/link';
@@ -15,7 +15,11 @@ const Home: NextPage<HomeProps> = ({ metaData, allPosts }) => {
   const homeTitle = `${metaData.title!} | Home`;
 
   return (
-    <Layout title={homeTitle} description={metaData.description!}>
+    <Layout
+      title={homeTitle}
+      description={metaData.description!}
+      className="col-span-5"
+    >
       <h1 className="text-3xl font-bold underline">Welcome to a blog!</h1>
       {allPosts.length > 0 &&
         allPosts.map(

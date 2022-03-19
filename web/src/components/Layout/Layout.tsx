@@ -1,3 +1,4 @@
+import Header from '@components/Header/Header';
 import Head from 'next/head';
 
 type LayoutProps = {
@@ -15,7 +16,7 @@ const Layout: React.FC<LayoutProps> = ({
   className = '',
   children,
 }) => (
-  <>
+  <div className="md:container px-4">
     <Head>
       <title>{title}</title>
 
@@ -25,14 +26,13 @@ const Layout: React.FC<LayoutProps> = ({
       <meta content={description} name="twitter:description" />
       {/* TODO: add meta for tweets */}
     </Head>
-    <div className="relative flex flex-col min-h-screen">
-      {/* TODO: add global header */}
-      {/* <Header /> */}
-      <main className={`flex-grow ${className}`}>{children}</main>
+    <div className="grid gap-4 grid-cols-5 min-h-screen">
+      <Header />
+      <main className={`${className}`}>{children}</main>
       {/* TODO: add global footer */}
       {/* <Footer /> */}
     </div>
-  </>
+  </div>
 );
 
 export default Layout;

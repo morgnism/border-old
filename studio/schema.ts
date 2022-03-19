@@ -235,23 +235,9 @@ export interface SiteSettings extends SanityDocument {
   /**
    * frontpage — `reference`
    *
-   * Choose page to be the frontpage. If no page specified, the default will be used.
+   * Choose page to be the front page. If no page specified, the default will be used.
    */
   frontpage?: SanityReference<Page>;
-
-  /**
-   * Main navigation — `reference`
-   *
-   * Select menu for main navigation
-   */
-  mainNav?: SanityReference<Navigation>;
-
-  /**
-   * Social navigation — `reference`
-   *
-   * Select menu for external social links.
-   */
-  socialNav?: SanityReference<Navigation>;
 }
 
 /**
@@ -263,25 +249,11 @@ export interface Navigation extends SanityDocument {
   _type: 'navigation';
 
   /**
-   * Title — `string`
+   * Sections — `array`
    *
-   *
+   * Create nav menus with links for sections of the site.
    */
-  title?: string;
-
-  /**
-   * Slug — `slug`
-   *
-   *
-   */
-  slug?: { _type: 'slug'; current: string };
-
-  /**
-   * Menu — `array`
-   *
-   * Select pages for the main navigation
-   */
-  items?: Array<SanityKeyed<NavigationItem>>;
+  sections?: Array<SanityKeyed<NavigationSection>>;
 }
 
 /**
@@ -391,25 +363,32 @@ export type BioPortableText = Array<SanityKeyed<SanityBlock>>;
 
 export type SummaryPortableText = Array<SanityKeyed<SanityBlock>>;
 
-export type NavigationItem = {
-  _type: 'navigationItem';
+export type NavigationSection = {
+  _type: 'navigationSection';
   /**
-   * Navigation Text — `string`
+   * Title — `string`
    *
    *
    */
-  text?: string;
+  title?: string;
 
   /**
-   * Navigation Item URL — `link`
+   * Links — `array`
    *
    *
    */
-  url?: Link;
+  links?: Array<SanityKeyed<Link>>;
 };
 
 export type Link = {
   _type: 'link';
+  /**
+   * Title — `string`
+   *
+   * Override title from the targeted article.
+   */
+  title?: string;
+
   /**
    * Internal Link — `reference`
    *

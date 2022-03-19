@@ -27,22 +27,8 @@ export default {
       name: 'frontpage',
       type: 'reference',
       description:
-        'Choose page to be the frontpage. If no page specified, the default will be used.',
+        'Choose page to be the front page. If no page specified, the default will be used.',
       to: { type: 'page' },
-    },
-    {
-      name: 'mainNav',
-      title: 'Main navigation',
-      description: 'Select menu for main navigation',
-      type: 'reference',
-      to: { type: 'navigation' },
-    },
-    {
-      name: 'socialNav',
-      title: 'Social navigation',
-      description: 'Select menu for external social links.',
-      type: 'reference',
-      to: { type: 'navigation' },
     },
   ],
 };

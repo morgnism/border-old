@@ -14,7 +14,7 @@ import {
 // /deskStructure.js
 const JsonPreview = ({ document }) => (
   <>
-    <h1>JSON Data for "{document.displayed.title}"</h1>
+    <h1>JSON Data for &#34;{document.displayed.title}&#34;</h1>
     <pre>{JSON.stringify(document.displayed, null, 2)}</pre>
   </>
 );
@@ -91,7 +91,10 @@ export default () =>
             createChildListItem(
               'Navigation',
               BiNavigation,
-              createChildDocument('navigation'),
+              S.document()
+                .title('Navigation')
+                .schemaType('navigation')
+                .documentId('navigation'),
             ),
             createChildListItem(
               'Theme',

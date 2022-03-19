@@ -18,7 +18,7 @@ import theme from './documents/theme';
 import summaryPortableText from './objects/summaryPortableText';
 import mainImage from './objects/mainImage';
 import bioPortableText from './objects/bioPortableText';
-import navigationItem from './objects/navigationItem';
+import navigationSection from './objects/navigationSection';
 import link from './objects/link';
 
 // Then we give our schema to the builder and provide the result to Sanity
@@ -40,7 +40,7 @@ export default createSchema({
     bodyPortableText,
     bioPortableText,
     summaryPortableText,
-    navigationItem,
+    navigationSection,
     link,
     theme,
 
