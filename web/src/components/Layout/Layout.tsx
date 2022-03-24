@@ -26,9 +26,9 @@ const Layout: React.FC<LayoutProps> = ({
       <meta content={description} name="twitter:description" />
       {/* TODO: add meta for tweets */}
     </Head>
-    <div className="grid gap-4 grid-cols-5 min-h-screen">
+    <div className="min-h-screen">
       <Header />
-      <main className={`${className}`}>{children}</main>
+      <main className={`mt-20 ${className}`}>{children}</main>
       {/* TODO: add global footer */}
       {/* <Footer /> */}
     </div>
