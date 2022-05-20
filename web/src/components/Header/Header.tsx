@@ -8,7 +8,7 @@ const headerNavMenu: NavLink[] = [
   // { title: 'Projects', url: '/projects'},
 ];
 
-const Header = () => (
+const MainNav = () => (
   <header className="mx-auto max-w-screen-2xl px-12 py-9 lg:py-12">
     <nav className="flex items-center justify-between">
       <h1 className="uppercase not-italic text-4xl">BORDER DEV</h1>
@@ -23,4 +23,4 @@ const Header = () => (
   </header>
 );
 
-export default Header;
+export default MainNav;

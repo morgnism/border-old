@@ -1,4 +1,4 @@
-import Header from '@components/Header/Header';
+import MainNav from '@components/Header/Header';
 import Head from 'next/head';
 
 type LayoutProps = {
@@ -26,12 +26,12 @@ const Layout: React.FC<LayoutProps> = ({
       <meta content={description} name="twitter:description" />
       {/* TODO: add meta for tweets */}
     </Head>
-    <div className="min-h-screen">
-      <Header />
-      <main className={`mt-20 ${className}`}>{children}</main>
+    <main className="min-h-screen">
+      <MainNav />
+      <section className={`mt-20 mb-52 ${className}`}>{children}</section>
       {/* TODO: add global footer */}
       {/* <Footer /> */}
-    </div>
+    </main>
   </>
 );
 

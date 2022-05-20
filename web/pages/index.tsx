@@ -18,28 +18,23 @@ const Home: NextPage<HomeProps> = ({ metaData, allPosts }) => {
   return (
     <Layout
       title={homeTitle}
-      description={metaData.description!}
+      description={metaData.description ?? ''}
       className="mx-auto max-w-7xl"
     >
-      {/* <Hero description={metaData.description!} /> */}
-      {/* Hero banner */}
-      <section className="grid grid-cols-12 gap-6">
-        <p className="col-start-4">{metaData.description!}</p>
+      <Hero description={metaData.description ?? ''} />
+      <section className="relative grid grid-cols-4 gap-x-4 md:grid-cols-8 lg:grid-cols-12 lg:gap-x-6 mx-auto max-w-7xl mb-64">
+        {allPosts.map(
+          ({ _id, title = '', slug, publishedAt = '' }) =>
+            slug && (
+              <article key={_id} className="col-span-4 mb-10">
+                <Link href="/post/[slug]" as={`/post/${slug.current}`}>
+                  <a>{title}</a>
+                </Link>{' '}
+                ({new Date(publishedAt).toDateString()})
+              </article>
+            ),
+        )}
       </section>
-      <div className="">
-        {allPosts.length > 0 &&
-          allPosts.map(
-            ({ _id, title = '', slug, publishedAt = '' }) =>
-              slug && (
-                <li key={_id}>
-                  <Link href="/post/[slug]" as={`/post/${slug.current}`}>
-                    <a>{title}</a>
-                  </Link>{' '}
-                  ({new Date(publishedAt).toDateString()})
-                </li>
-              ),
-          )}
-      </div>
     </Layout>
   );
 };
