@@ -9,9 +9,9 @@ const headerNavMenu: NavLink[] = [
 ];
 
 const Header = () => (
-  <header className="col-span-12 grid grid-cols-12 px-6 py-8">
-    <h1 className="col-span-4 uppercase not-italic text-4xl">BORDER DEV</h1>
-    <nav className="col-span-8">
+  <header className="mx-auto max-w-screen-2xl px-12 py-9 lg:py-12">
+    <nav className="flex items-center justify-between">
+      <h1 className="uppercase not-italic text-4xl">BORDER DEV</h1>
       <ul className="flex justify-end content-between">
         {headerNavMenu.map(({ title, url }) => (
           <li className="px-3" key={url}>

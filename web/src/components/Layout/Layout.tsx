@@ -16,7 +16,7 @@ const Layout: React.FC<LayoutProps> = ({
   className = '',
   children,
 }) => (
-  <div className="md:container px-4">
+  <>
     <Head>
       <title>{title}</title>
 
@@ -32,7 +32,7 @@ const Layout: React.FC<LayoutProps> = ({
       {/* TODO: add global footer */}
       {/* <Footer /> */}
     </div>
-  </div>
+  </>
 );
 
 export default Layout;

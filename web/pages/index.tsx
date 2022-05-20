@@ -19,7 +19,7 @@ const Home: NextPage<HomeProps> = ({ metaData, allPosts }) => {
     <Layout
       title={homeTitle}
       description={metaData.description!}
-      className="mx-10"
+      className="mx-auto max-w-7xl"
     >
       {/* <Hero description={metaData.description!} /> */}
       {/* Hero banner */}
