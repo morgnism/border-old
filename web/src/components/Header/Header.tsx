@@ -8,10 +8,10 @@ const headerNavMenu: NavLink[] = [
   // { title: 'Projects', url: '/projects'},
 ];
 
-const Header = () => (
-  <header className="col-span-5 h-20 mt-4 inline-grid grid-cols-5">
-    <h1 className="col-span-1 uppercase not-italic text-4xl">BORDER DEV</h1>
-    <nav className="col-span-4">
+const MainNav = () => (
+  <header className="mx-auto max-w-screen-2xl px-12 py-9 lg:py-12">
+    <nav className="flex items-center justify-between">
+      <h1 className="uppercase not-italic text-4xl">BORDER DEV</h1>
       <ul className="flex justify-end content-between">
         {headerNavMenu.map(({ title, url }) => (
           <li className="px-3" key={url}>
@@ -23,4 +23,4 @@ const Header = () => (
   </header>
 );
 
-export default Header;
+export default MainNav;

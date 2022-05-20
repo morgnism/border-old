@@ -1,4 +1,4 @@
-import Header from '@components/Header/Header';
+import MainNav from '@components/Header/Header';
 import Head from 'next/head';
 
 type LayoutProps = {
@@ -16,7 +16,7 @@ const Layout: React.FC<LayoutProps> = ({
   className = '',
   children,
 }) => (
-  <div className="md:container px-4">
+  <>
     <Head>
       <title>{title}</title>
 
@@ -26,13 +26,13 @@ const Layout: React.FC<LayoutProps> = ({
       <meta content={description} name="twitter:description" />
       {/* TODO: add meta for tweets */}
     </Head>
-    <div className="grid gap-4 grid-cols-5 min-h-screen">
-      <Header />
-      <main className={`${className}`}>{children}</main>
+    <main className="min-h-screen">
+      <MainNav />
+      <section className={`mt-20 mb-52 ${className}`}>{children}</section>
       {/* TODO: add global footer */}
       {/* <Footer /> */}
-    </div>
-  </div>
+    </main>
+  </>
 );
 
 export default Layout;

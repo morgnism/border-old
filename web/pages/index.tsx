@@ -1,3 +1,4 @@
+import Hero from '@components/Hero/Hero';
 import Layout from '@components/Layout/Layout';
 import { sanityClient } from '@lib/sanity-client';
 import { overlayDrafts } from '@utils/overlayDrafts';
@@ -17,22 +18,23 @@ const Home: NextPage<HomeProps> = ({ metaData, allPosts }) => {
   return (
     <Layout
       title={homeTitle}
-      description={metaData.description!}
-      className="col-span-5"
+      description={metaData.description ?? ''}
+      className="mx-auto max-w-7xl"
     >
-      <h1 className="text-3xl font-bold underline">Welcome to a blog!</h1>
-      {allPosts.length > 0 &&
-        allPosts.map(
+      <Hero description={metaData.description ?? ''} />
+      <section className="relative grid grid-cols-4 gap-x-4 md:grid-cols-8 lg:grid-cols-12 lg:gap-x-6 mx-auto max-w-7xl mb-64">
+        {allPosts.map(
           ({ _id, title = '', slug, publishedAt = '' }) =>
             slug && (
-              <li key={_id}>
+              <article key={_id} className="col-span-4 mb-10">
                 <Link href="/post/[slug]" as={`/post/${slug.current}`}>
                   <a>{title}</a>
                 </Link>{' '}
                 ({new Date(publishedAt).toDateString()})
-              </li>
+              </article>
             ),
         )}
+      </section>
     </Layout>
   );
 };
