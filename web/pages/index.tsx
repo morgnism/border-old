@@ -1,12 +1,11 @@
 import Hero from '@components/Hero/Hero';
 import Layout from '@components/Layout/Layout';
+import SanityLink from '@components/SanityLink/SanityLink';
 import { sanityClient } from '@lib/sanity-client';
 import { overlayDrafts } from '@utils/overlayDrafts';
 import format from 'date-fns/format';
 import type { NextPage } from 'next';
 import { groq } from 'next-sanity';
-import Image from 'next/image';
-import Link from 'next/link';
 import { Post, SiteSettings } from '../../studio/schema';
 
 type HomeProps = {
@@ -45,38 +44,37 @@ const Home: NextPage<HomeProps> = ({ metaData, allPosts }) => {
             summary,
             tags,
             coverImage,
-          }) =>
-            slug && (
-              <article
-                key={_id}
-                className="col-span-4 mb-10 flex flex-col border border-gray-300 rounded bg-white p-4"
-              >
-                <Link href={`/post/${slug.current}`} passHref>
-                  {/* <Image
+          }) => (
+            <article
+              key={_id}
+              className="col-span-4 mb-10 flex flex-col border border-gray-300 rounded bg-white p-4"
+            >
+              <SanityLink href={`/post/${slug}`} passHref>
+                {/* <Image
                       className="mb-2"
                       src={coverImage.url}
                       alt={coverImage.alt}
                     /> */}
-                  <div className="flex-grow mb-5">
-                    <h2 className="text-2xl">{title}</h2>
-                    <p>{summary}</p>
-                  </div>
-                </Link>
-                <div className="mb-2">
-                  {format(new Date(publishedAt), 'MMM do, yyyy')}
+                <div className="flex-grow mb-5">
+                  <h2 className="text-2xl">{title}</h2>
+                  <p>{summary}</p>
                 </div>
-                <p className="flex">
-                  {tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="mr-2 px-2 border rounded-full bg-slate-100 text-gray-600 text-sm"
-                    >
-                      {tag.toLocaleLowerCase()}
-                    </span>
-                  ))}
-                </p>
-              </article>
-            ),
+              </SanityLink>
+              <div className="mb-2">
+                {format(new Date(publishedAt), 'MMM do, yyyy')}
+              </div>
+              <p className="flex">
+                {tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="mr-2 px-2 border rounded-full bg-slate-100 text-gray-600 text-sm"
+                  >
+                    {tag.toLocaleLowerCase()}
+                  </span>
+                ))}
+              </p>
+            </article>
+          ),
         )}
       </section>
     </Layout>
