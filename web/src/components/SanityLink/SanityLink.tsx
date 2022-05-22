@@ -20,7 +20,7 @@ const SanityLink = ({
 
   if (slug) {
     return (
-      <NextLink href={href} {...props}>
+      <NextLink href={href} {...props} passHref>
         <a
           className={className}
           href={href}
