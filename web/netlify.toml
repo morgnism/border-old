@@ -1,7 +1,7 @@
 [build]
   base = "/"
   publish = "//web/.next"
-  command = "yarn build-web && cp ./web/netlify.toml ./web/.next"
+  command = "yarn build-web && cp ./web/netlify.toml ./web/.next && yarn run start"
 
 [[plugins]]
 package = "@netlify/plugin-nextjs"
