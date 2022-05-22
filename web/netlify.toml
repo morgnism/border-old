@@ -1,0 +1,12 @@
+[[redirects]]
+  from = "/*"
+  to = "/"
+  status = 200
+
+[build]
+  base = "/"
+  publish = "//web/.next"
+  command = "yarn build-web && cp ./web/netlify.toml ./web/.next"
+
+[[plugins]]
+package = "@netlify/plugin-nextjs"
