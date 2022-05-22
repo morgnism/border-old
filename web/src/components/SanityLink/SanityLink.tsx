@@ -1,4 +1,5 @@
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 
 type LinkProps = {
   className?: string;
@@ -14,6 +15,9 @@ const SanityLink = ({
   target,
   ...props
 }: React.PropsWithChildren<LinkProps>) => {
+  const { pathname } = useRouter();
+  className = pathname === slug ? `${className} active` : className;
+
   if (slug) {
     return (
       <NextLink href={href} {...props}>
