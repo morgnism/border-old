@@ -1,11 +1,13 @@
-import Link from 'next/link';
+import NextLink from 'next/link';
 
-type LinkProps = { passHref: boolean } & {
+type LinkProps = {
+  className?: string;
   slug?: string;
   target?: string;
 } & Partial<URL>;
 
 const SanityLink = ({
+  className,
   children,
   slug,
   href = '',
@@ -14,13 +16,25 @@ const SanityLink = ({
 }: React.PropsWithChildren<LinkProps>) => {
   if (slug) {
     return (
-      <Link href={href} {...props}>
-        {children}
-      </Link>
+      <NextLink href={href} {...props}>
+        <a
+          className={className}
+          href={href}
+          target={target ? `_blank` : undefined}
+          {...props}
+        >
+          {children}
+        </a>
+      </NextLink>
     );
   } else {
     return (
-      <a href={href} target={target ? `_blank` : undefined} {...props}>
+      <a
+        className={className}
+        href={href}
+        target={target ? `_blank` : undefined}
+        {...props}
+      >
         {children}
       </a>
     );

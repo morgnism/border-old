@@ -36,31 +36,21 @@ const Home: NextPage<HomeProps> = ({ metaData, allPosts }) => {
         aria-label="latest blog articles"
       >
         {allPosts.map(
-          ({
-            _id,
-            title = '',
-            slug,
-            publishedAt = '',
-            summary,
-            tags,
-            coverImage,
-          }) => (
+          ({ _id, title = '', slug, publishedAt = '', summary, tags }) => (
             <article
               key={_id}
               className="col-span-4 mb-10 flex flex-col border border-gray-300 rounded bg-white p-4"
             >
-              <SanityLink href={`/post/${slug}`} passHref>
-                {/* <Image
-                      className="mb-2"
-                      src={coverImage.url}
-                      alt={coverImage.alt}
-                    /> */}
-                <div className="flex-grow mb-5">
-                  <h2 className="text-2xl">{title}</h2>
-                  <p>{summary}</p>
-                </div>
-              </SanityLink>
-              <div className="mb-2">
+              <div className="flex flex-col flex-grow mb-5">
+                <SanityLink
+                  className="text-2xl hover:text-slate-600 mb-4"
+                  href={slug ? `/post/${slug}` : undefined}
+                >
+                  {title}
+                </SanityLink>
+                <p>{summary}</p>
+              </div>
+              <div className="text-sm mb-2">
                 {format(new Date(publishedAt), 'MMM do, yyyy')}
               </div>
               <p className="flex">
