@@ -6,6 +6,7 @@ import { overlayDrafts } from '@utils/overlayDrafts';
 import format from 'date-fns/format';
 import type { NextPage } from 'next';
 import { groq } from 'next-sanity';
+import { useRouter } from 'next/router';
 import { Post, SiteSettings } from '../../studio/schema';
 
 type HomeProps = {
@@ -17,11 +18,13 @@ type HomeProps = {
         src: string;
       };
       tags: string[];
+      slug: string;
     } & Post
   >;
 };
 
 const Home: NextPage<HomeProps> = ({ metaData, allPosts }) => {
+  const { pathname } = useRouter();
   const homeTitle = `${metaData.title!} | Home`;
 
   return (
@@ -36,7 +39,15 @@ const Home: NextPage<HomeProps> = ({ metaData, allPosts }) => {
         aria-label="latest blog articles"
       >
         {allPosts.map(
-          ({ _id, title = '', slug, publishedAt = '', summary, tags }) => (
+          ({
+            _id,
+            title = '',
+            slug,
+            external,
+            publishedAt = '',
+            summary,
+            tags,
+          }) => (
             <article
               key={_id}
               className="col-span-4 mb-10 flex flex-col border border-gray-300 rounded bg-white p-4"
@@ -44,7 +55,8 @@ const Home: NextPage<HomeProps> = ({ metaData, allPosts }) => {
               <div className="flex flex-col flex-grow mb-5">
                 <SanityLink
                   className="text-2xl hover:text-slate-600 mb-4"
-                  href={slug ? `/post/${slug}` : undefined}
+                  href={slug ? `/post/${slug}` : external!}
+                  isActive={pathname === slug}
                 >
                   {title}
                 </SanityLink>
@@ -91,6 +103,7 @@ const allPostsQuery = groq`
   },
   "summary": summary[0].children[0].text,
   "slug": slug.current,
+  external,
   publishedAt
 }
 `;
