@@ -1,46 +1,46 @@
-import NextLink from 'next/link';
-import { useRouter } from 'next/router';
+import NextLink, { LinkProps as NextLinkProps } from 'next/link';
 
-type LinkProps = {
+export type LinkProps = {
+  href: string;
+  isActive?: boolean;
   className?: string;
-  slug?: string;
-  target?: string;
-} & Partial<URL>;
+} & NextLinkProps;
+
+const isExternal = (href: string): boolean => href.startsWith('http');
 
 const SanityLink = ({
-  className,
+  href,
   children,
-  slug,
-  href = '',
-  target,
+  className,
+  isActive = false,
   ...props
 }: React.PropsWithChildren<LinkProps>) => {
-  const { pathname } = useRouter();
-  className = pathname === slug ? `${className} active` : className;
+  className = isActive ? `${className} active` : className;
 
-  if (slug) {
+  if (isExternal(href)) {
+    return (
+      <a
+        className={className}
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-current={isActive ? 'page' : 'false'}
+        {...props}
+      >
+        {children}
+      </a>
+    );
+  } else {
     return (
       <NextLink href={href} {...props} passHref>
         <a
           className={className}
-          href={href}
-          target={target ? `_blank` : undefined}
+          aria-current={isActive ? 'page' : 'false'}
           {...props}
         >
           {children}
         </a>
       </NextLink>
-    );
-  } else {
-    return (
-      <a
-        className={className}
-        href={href}
-        target={target ? `_blank` : undefined}
-        {...props}
-      >
-        {children}
-      </a>
     );
   }
 };

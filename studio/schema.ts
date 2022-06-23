@@ -101,6 +101,13 @@ export interface Post extends SanityDocument {
   slug?: { _type: 'slug'; current: string };
 
   /**
+   * URL — `url`
+   *
+   * Provide a URL to an externally linked post
+   */
+  external?: string;
+
+  /**
    * Published at — `datetime`
    *
    * Hint: this can be used to schedule post for publishing
