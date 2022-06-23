@@ -6,6 +6,7 @@ import { overlayDrafts } from '@utils/overlayDrafts';
 import format from 'date-fns/format';
 import type { NextPage } from 'next';
 import { groq } from 'next-sanity';
+import { useRouter } from 'next/router';
 import { Post, SiteSettings } from '../../studio/schema';
 
 type HomeProps = {
@@ -17,11 +18,13 @@ type HomeProps = {
         src: string;
       };
       tags: string[];
+      slug: string;
     } & Post
   >;
 };
 
 const Home: NextPage<HomeProps> = ({ metaData, allPosts }) => {
+  const { pathname } = useRouter();
   const homeTitle = `${metaData.title!} | Home`;
 
   return (
@@ -40,27 +43,26 @@ const Home: NextPage<HomeProps> = ({ metaData, allPosts }) => {
             _id,
             title = '',
             slug,
+            external,
             publishedAt = '',
             summary,
             tags,
-            coverImage,
           }) => (
             <article
               key={_id}
               className="col-span-4 mb-10 flex flex-col border border-gray-300 rounded bg-white p-4"
             >
-              <SanityLink href={`/post/${slug}`} passHref>
-                {/* <Image
-                      className="mb-2"
-                      src={coverImage.url}
-                      alt={coverImage.alt}
-                    /> */}
-                <div className="flex-grow mb-5">
-                  <h2 className="text-2xl">{title}</h2>
-                  <p>{summary}</p>
-                </div>
-              </SanityLink>
-              <div className="mb-2">
+              <div className="flex flex-col flex-grow mb-5">
+                <SanityLink
+                  className="text-2xl hover:text-slate-600 mb-4"
+                  href={slug ? `/post/${slug}` : external!}
+                  isActive={pathname === slug}
+                >
+                  {title}
+                </SanityLink>
+                <p>{summary}</p>
+              </div>
+              <div className="text-sm mb-2">
                 {format(new Date(publishedAt), 'MMM do, yyyy')}
               </div>
               <p className="flex">
@@ -101,6 +103,7 @@ const allPostsQuery = groq`
   },
   "summary": summary[0].children[0].text,
   "slug": slug.current,
+  external,
   publishedAt
 }
 `;

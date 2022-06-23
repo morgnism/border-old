@@ -1,28 +1,46 @@
-import Link from 'next/link';
+import NextLink, { LinkProps as NextLinkProps } from 'next/link';
 
-type LinkProps = { passHref: boolean } & {
-  slug?: string;
-  target?: string;
-} & Partial<URL>;
+export type LinkProps = {
+  href: string;
+  isActive?: boolean;
+  className?: string;
+} & NextLinkProps;
+
+const isExternal = (href: string): boolean => href.startsWith('http');
 
 const SanityLink = ({
+  href,
   children,
-  slug,
-  href = '',
-  target,
+  className,
+  isActive = false,
   ...props
 }: React.PropsWithChildren<LinkProps>) => {
-  if (slug) {
+  className = isActive ? `${className} active` : className;
+
+  if (isExternal(href)) {
     return (
-      <Link href={href} {...props}>
+      <a
+        className={className}
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-current={isActive ? 'page' : 'false'}
+        {...props}
+      >
         {children}
-      </Link>
+      </a>
     );
   } else {
     return (
-      <a href={href} target={target ? `_blank` : undefined} {...props}>
-        {children}
-      </a>
+      <NextLink href={href} {...props} passHref>
+        <a
+          className={className}
+          aria-current={isActive ? 'page' : 'false'}
+          {...props}
+        >
+          {children}
+        </a>
+      </NextLink>
     );
   }
 };

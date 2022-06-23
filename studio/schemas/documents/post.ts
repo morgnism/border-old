@@ -19,10 +19,25 @@ export default {
       type: 'slug',
       description:
         'Hint: some frontends will require a slug to be set to be able to show the post',
+      readOnly: ({ parent, value }) => !value && parent?.external,
       options: {
         source: 'title',
-        maxLength: 96,
+        slugify: (input) =>
+          input
+            .toLowerCase()
+            .replace(/\s+/g, '-')
+            .slice(0, 96)
+            //Remove special characters
+            .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, ''),
+        validation: (Rule) => Rule.required(),
       },
+    },
+    {
+      name: 'external',
+      type: 'url',
+      title: 'URL',
+      description: 'Provide a URL to an externally linked post',
+      readOnly: ({ parent, value }) => !value && parent?.slug,
     },
     {
       name: 'publishedAt',
