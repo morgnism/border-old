@@ -1,7 +1,7 @@
 import Hero from '@components/Hero/Hero';
 import Layout from '@components/Layout/Layout';
 import SanityLink from '@components/SanityLink/SanityLink';
-import { getClient, sanityClient } from '@lib/sanity-client';
+import { getClient, sanityClient } from '@lib/sanity.server';
 import { overlayDrafts } from '@lib/utils/overlayDrafts';
 import format from 'date-fns/format';
 import type { NextPage } from 'next';

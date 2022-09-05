@@ -1,6 +1,6 @@
 import Layout from '@components/Layout/Layout';
 import { urlForImage } from '@lib/sanity';
-import { getClient, sanityClient } from '@lib/sanity-client';
+import { getClient, sanityClient } from '@lib/sanity.server';
 import { PortableText } from '@portabletext/react';
 import { NextPage } from 'next';
 import { groq } from 'next-sanity';
