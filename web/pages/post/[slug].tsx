@@ -1,12 +1,12 @@
 import Layout from '@components/Layout/Layout';
+import { urlForImage } from '@lib/sanity';
+import { getClient, sanityClient } from '@lib/sanity-client';
 import { PortableText } from '@portabletext/react';
 import { NextPage } from 'next';
+import { groq } from 'next-sanity';
 import Image from 'next/image';
 import React from 'react';
 import { Documents, Post, SiteSettings } from '../../../studio/schema';
-import { getClient, sanityClient } from '@lib/sanity-client';
-import { urlForImage } from '@lib/sanity';
-import { groq } from 'next-sanity';
 
 type PostProps = {
   siteTitle: string;
