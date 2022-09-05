@@ -1,8 +1,8 @@
 import Hero from '@components/Hero/Hero';
 import Layout from '@components/Layout/Layout';
 import SanityLink from '@components/SanityLink/SanityLink';
-import { sanityClient } from '@lib/sanity-client';
-import { overlayDrafts } from '@utils/overlayDrafts';
+import { getClient, sanityClient } from '@lib/sanity-client';
+import { overlayDrafts } from '@lib/utils/overlayDrafts';
 import format from 'date-fns/format';
 import type { NextPage } from 'next';
 import { groq } from 'next-sanity';
@@ -108,10 +108,10 @@ const allPostsQuery = groq`
 }
 `;
 
-export async function getStaticProps() {
+export const getStaticProps = async (preview = false) => {
   const metaData = await sanityClient.fetch<SiteSettings>(homeMetadataQuery);
   const allPosts = overlayDrafts(
-    await sanityClient.fetch<Post[]>(allPostsQuery),
+    await getClient(preview).fetch<Post[]>(allPostsQuery),
   );
 
   return {
@@ -120,6 +120,6 @@ export async function getStaticProps() {
       allPosts,
     },
   };
-}
+};
 
 export default Home;

@@ -1,34 +1,52 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Border Static Blog
 
-## Getting Started
+Front-end client consuming Sanity APIs.
 
-First, run the development server:
+## Sanity API
+
+### Sanity Config
+
+Sanity config takes the following env vars:
 
 ```bash
-npm run dev
-# or
-yarn dev
+SANITY_PROJECT_ID=
+SANITY_DATASET=
+SANITY_API_VERSION=
+PRODUCTION=
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+and corresponds to the following:
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```typescript
+export const sanityConfig = {
+  projectId: 'your-project-id',
+  dataset: 'your-dataset',
+  useCdn: true,
+  apiVersion: "today's-date",
+};
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+NOTE: keep `.env.local.example` up-to-date incase local `.env.local` is deleted. These env vars should always come from a local `.env` in development and Netlify env vars in production.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### Sanity API Chache
 
-## Learn More
+Sanity use a CDN, cached API for the client and end-user. Whereas, the live API fetches the latest data.
 
-To learn more about Next.js, take a look at the following resources:
+When in production, the Sanity API is only queried on build-time, and on-demand when responding to webhooks. Thus the data need to be fresh and API response time is less important.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+When in development/working locally, it's more important to keep costs down as hot reloading can incurr a lot of API calls, and every page load calls getStaticProps.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+To get the lowest latency, lowest cost, and latest data, use the Instant Preview mode.
 
-## Deploy on Vercel
+### Sanity API Versioning
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Versioning should be configured using UTC dates.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+See more about versioining and how it works [here](https://www.sanity.io/docs/api-versioning).
+See more from the changelog [here](https://www.sanity.io/changelog).
+
+## Deploys
+
+NOTE: Netlify UI Environment Variables need to be setup for this.
+
+Netlify will build a node project with the standard `process.env` when building the site. NextJS uses `.env.local` for development right away.
