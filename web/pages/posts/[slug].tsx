@@ -21,6 +21,7 @@ type PostProps = {
     authorName: string;
     authorImage: string;
     description: string;
+    tags: string[];
   } & Post;
   preview: boolean;
 };
@@ -77,10 +78,10 @@ const Post: NextPage<PostProps> = ({
       <article>
         <h1>{post.title}</h1>
         <span>By {post.authorName}</span>
-        {post.categories && (
+        {post.tags && (
           <ul>
             Posted in
-            {post.categories.map((category) => (
+            {post.tags.map((category) => (
               <li key={category as unknown as string}>{category}</li>
             ))}
           </ul>
@@ -106,7 +107,7 @@ export const getStaticProps = async ({
   preview = false,
 }: PostContext) => {
   // It's important to default the slug so that it doesn't return "undefined"
-  const [siteTitle, post] = await Promise.all([
+  const [siteMeta, post] = await Promise.all([
     sanityClient.fetch<SiteSettings>(siteMetadataQuery),
     getClient(preview).fetch<Documents>(postQuery, {
       slug: params.slug,
@@ -116,7 +117,7 @@ export const getStaticProps = async ({
   return {
     props: {
       preview,
-      siteTitle,
+      siteTitle: siteMeta.title,
       post,
     },
   };

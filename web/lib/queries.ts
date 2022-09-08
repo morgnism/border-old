@@ -5,7 +5,7 @@ const postField = groq`
   title,
   "slug": slug.current,
   "authorName": author->name,
-  "categories": categories[]->title,
+  "tags": categories[]->title,
   "authorImage": author->image,
   body,
   "description": summary[0].children[0].text,
@@ -26,8 +26,35 @@ const postField = groq`
 // `;
 
 export const siteMetadataQuery = groq`
-*[_type == "siteSettings"][0].title
+*[_type == "siteSettings"][0]{
+  title,
+  description,
+  url
+}
 `;
+
+export const allPostsQuery = groq`
+*[_type == "post"] | order(date desc, _updatedAt desc) {
+  _id,
+  title,
+  "slug": slug.current,
+  "authorName": author->name,
+  "tags": categories[]->title,
+  "coverImage": mainImage{
+    alt,
+    "src": asset->url
+  },
+  "summary": summary[0].children[0].text,
+  external,
+  publishedAt
+}
+`;
+
+export const allPostsAndMetaQuery = groq`
+{
+  "metaData": ${siteMetadataQuery},
+  "posts": ${allPostsQuery},
+}`;
 
 export const postQuery = groq`
 *[_type == "post" && slug.current == $slug][0]{

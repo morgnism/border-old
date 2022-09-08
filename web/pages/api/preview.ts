@@ -1,6 +1,15 @@
 import { postBySlugQuery } from '@lib/queries';
 import { previewClient } from '@lib/sanity.server';
 
+function redirectToPreview(res, Location) {
+  // Enable Preview Mode by setting the cookies
+  res.setPreviewData({});
+  // Redirect to the path from the fetched post
+  // We don't redirect to req.query.slug as that might lead to open redirect vulnerabilities
+  res.writeHead(307, { Location });
+  res.end('Preview mode enabled.');
+}
+
 export default async function handler(req, res) {
   if (!req.query.secret) {
     return res.status(401).json({ message: 'No secret token' });
@@ -13,7 +22,7 @@ export default async function handler(req, res) {
   }
 
   if (!req.query.slug) {
-    return res.status(401).json({ message: 'No slug' });
+    redirectToPreview(res, '/');
   }
 
   // Check if the post with the given `slug` exists
@@ -31,7 +40,5 @@ export default async function handler(req, res) {
 
   // Redirect to the path from the fetched post
   // We don't redirect to req.query.slug as that might lead to open redirect vulnerabilities
-  res.writeHead(307, { Location: `/post/${post.slug}` ?? `/post/` });
-
-  return res.end('Preview mode enabled.');
+  redirectToPreview(res, `/posts/${post.slug}`);
 }
