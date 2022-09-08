@@ -12,6 +12,7 @@ Sanity config takes the following env vars:
 SANITY_PROJECT_ID=
 SANITY_DATASET=
 SANITY_API_VERSION=
+SANITY_API_READ_TOKEN=
 PRODUCTION=
 ```
 
@@ -37,6 +38,10 @@ When in production, the Sanity API is only queried on build-time, and on-demand 
 When in development/working locally, it's more important to keep costs down as hot reloading can incurr a lot of API calls, and every page load calls getStaticProps.
 
 To get the lowest latency, lowest cost, and latest data, use the Instant Preview mode.
+
+## Sanity Local Preview
+
+Providing a sanity token with CDN off enables preview URLs. It's important to run the Sanity API in preview to avoid costly production calls.
 
 ### Sanity API Versioning
 
