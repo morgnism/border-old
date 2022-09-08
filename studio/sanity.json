@@ -16,11 +16,14 @@
     "@sanity/color-input",
     "@andre-brdoch/sanity-plugin-schema-inspector",
     "markdown",
-    "@sanity/production-preview"
+    "@sanity/production-preview",
+    "iframe-pane"
   ],
   "env": {
     "development": {
-      "plugins": ["@sanity/vision"]
+      "plugins": [
+        "@sanity/vision"
+      ]
     }
   },
   "parts": [
