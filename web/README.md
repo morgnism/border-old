@@ -13,6 +13,7 @@ SANITY_PROJECT_ID=
 SANITY_DATASET=
 SANITY_API_VERSION=
 SANITY_API_READ_TOKEN=
+SANITY_PREVIEW_SECRET=
 PRODUCTION=
 ```
 
@@ -41,7 +42,7 @@ To get the lowest latency, lowest cost, and latest data, use the Instant Preview
 
 ## Sanity Local Preview
 
-Providing a sanity token with CDN off enables preview URLs. It's important to run the Sanity API in preview to avoid costly production calls.
+Providing a SANITY_API_READ_TOKEN and SANITY_PREVIEW_SECRET with CDN off enables preview URLs. It's important to run the Sanity API in preview to avoid costly production calls.
 
 ### Sanity API Versioning
 
