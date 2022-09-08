@@ -108,7 +108,7 @@ const allPostsQuery = groq`
 }
 `;
 
-export const getStaticProps = async (preview = false) => {
+export const getStaticProps = async ({ preview = false }) => {
   const metaData = await sanityClient.fetch<SiteSettings>(homeMetadataQuery);
   const allPosts = overlayDrafts(
     await getClient(preview).fetch<Post[]>(allPostsQuery),
@@ -118,6 +118,7 @@ export const getStaticProps = async (preview = false) => {
     props: {
       metaData,
       allPosts,
+      preview,
     },
   };
 };

@@ -1,10 +1,17 @@
 import Layout from '@components/Layout/Layout';
-import { urlForImage } from '@lib/sanity';
+import {
+  allPostSlugsQuery,
+  postBySlugQuery,
+  postQuery,
+  siteMetadataQuery,
+} from '@lib/queries';
+import { urlForImage, usePreviewSubscription } from '@lib/sanity';
 import { getClient, sanityClient } from '@lib/sanity.server';
 import { PortableText } from '@portabletext/react';
 import { NextPage } from 'next';
-import { groq } from 'next-sanity';
+import ErrorPage from 'next/error';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { Documents, Post, SiteSettings } from '../../../studio/schema';
 
@@ -15,6 +22,7 @@ type PostProps = {
     authorImage: string;
     description: string;
   } & Post;
+  preview: boolean;
 };
 
 type PostContext = {
@@ -43,78 +51,71 @@ const ptComponents = {
   },
 };
 
-const Post: NextPage<PostProps> = ({ siteTitle, post }) => {
-  const {
-    title = 'Missing title',
-    authorName = 'Missing name',
-    categories,
-    authorImage,
-    description,
-    body = [],
-  } = post;
-  const pageTitle = `${siteTitle} | ${title}`;
+const Post: NextPage<PostProps> = ({
+  siteTitle,
+  post: initialData,
+  preview,
+}) => {
+  const router = useRouter();
+
+  const { data: post } = usePreviewSubscription(postBySlugQuery, {
+    params: { slug: initialData.slug },
+    // The hook will return this on first render
+    // This is why it's important to fetch *draft* content server-side!
+    initialData,
+    // The passed-down preview context determines whether this function does anything
+    enabled: preview,
+  });
+  const pageTitle = `${siteTitle} | ${post.title}`;
+
+  if (!router.isFallback && !initialData?.slug) {
+    return <ErrorPage statusCode={404} />;
+  }
 
   return (
-    <Layout title={pageTitle} description={description}>
+    <Layout title={pageTitle} description={post.description}>
       <article>
-        <h1>{title}</h1>
-        <span>By {authorName}</span>
-        {categories && (
+        <h1>{post.title}</h1>
+        <span>By {post.authorName}</span>
+        {post.categories && (
           <ul>
             Posted in
-            {categories.map((category) => (
+            {post.categories.map((category) => (
               <li key={category as unknown as string}>{category}</li>
             ))}
           </ul>
         )}
-        {authorImage && (
+        {post.authorImage && (
           <div>
             <Image
-              src={urlForImage(authorImage).width(50).url()}
-              alt={authorName}
+              src={urlForImage(post.authorImage).width(50).url()}
+              alt={post.authorName}
               width={50}
               height={50}
             />
           </div>
         )}
-        <PortableText value={body} components={ptComponents} />
+        <PortableText value={post.body} components={ptComponents} />
       </article>
     </Layout>
   );
 };
-
-const siteMetadataQuery = groq`
-*[_type == "siteSettings"][0].title
-`;
-
-const postBySlugQuery = groq`
-*[_type == "post" && slug.current == $slug][0]{
-  _id,
-  title,
-  "authorName": author->name,
-  "categories": categories[]->title,
-  "authorImage": author->image,
-  body,
-  "description": summary[0].children[0].text
-}`;
-
-const postSlugsQuery = groq`
-*[_type == "post" && defined(slug.current)][].slug.current
-`;
 
 export const getStaticProps = async ({
   params,
   preview = false,
 }: PostContext) => {
   // It's important to default the slug so that it doesn't return "undefined"
-  const siteTitle = await sanityClient.fetch<SiteSettings>(siteMetadataQuery);
-  const { slug = '' } = params;
-  const post = await getClient(preview).fetch<Documents>(postBySlugQuery, {
-    slug,
-  });
+  const [siteTitle, post] = await Promise.all([
+    sanityClient.fetch<SiteSettings>(siteMetadataQuery),
+    getClient(preview).fetch<Documents>(postQuery, {
+      slug: params.slug,
+    }),
+  ]);
 
   return {
     props: {
+      preview,
       siteTitle,
       post,
     },
@@ -122,7 +123,7 @@ export const getStaticProps = async ({
 };
 
 export const getStaticPaths = async () => {
-  const paths = await sanityClient.fetch(postSlugsQuery);
+  const paths = await sanityClient.fetch(allPostSlugsQuery);
 
   return {
     paths: paths.map((slug: string) => ({ params: { slug } })),
