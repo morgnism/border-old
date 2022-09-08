@@ -15,13 +15,12 @@
     "@sanity/code-input",
     "@sanity/color-input",
     "@andre-brdoch/sanity-plugin-schema-inspector",
-    "markdown"
+    "markdown",
+    "@sanity/production-preview"
   ],
   "env": {
     "development": {
-      "plugins": [
-        "@sanity/vision"
-      ]
+      "plugins": ["@sanity/vision"]
     }
   },
   "parts": [
@@ -32,6 +31,10 @@
     {
       "name": "part:@sanity/desk-tool/structure",
       "path": "./parts/deskStructure"
+    },
+    {
+      "implements": "part:@sanity/production-preview/resolve-production-url",
+      "path": "./plugins/resolveProductionUrl.ts"
     }
   ]
 }
