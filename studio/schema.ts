@@ -143,11 +143,11 @@ export interface Post extends SanityDocument {
   categories?: Array<SanityKeyedReference<Category>>;
 
   /**
-   * Body — `bodyPortableText`
+   * Body — `markdown`
    *
    *
    */
-  body?: BodyPortableText;
+  body?: Markdown;
 }
 
 /**
@@ -419,6 +419,13 @@ export type Documents =
   | SiteSettings
   | Navigation
   | Theme;
+
+/**
+ * This interface is a stub. It was referenced in your sanity schema but
+ * the definition was not actually found. Future versions of
+ * sanity-codegen will let you type this explicity.
+ */
+type Markdown = any;
 
 /**
  * This interface is a stub. It was referenced in your sanity schema but
