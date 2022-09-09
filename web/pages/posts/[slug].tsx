@@ -1,75 +1,51 @@
 import Layout from '@components/Layout';
-import {
-  allPostSlugsQuery,
-  postBySlugQuery,
-  postQuery,
-  siteMetadataQuery,
-} from '@lib/queries';
+import MDXComponents from '@components/MDX';
+import { allPostSlugsQuery, postQuery, siteMetadataQuery } from '@lib/queries';
 import { urlForImage, usePreviewSubscription } from '@lib/sanity';
 import { getClient, sanityClient } from '@lib/sanity.server';
-import { PortableText } from '@portabletext/react';
 import { NextPage } from 'next';
+import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
+import { serialize } from 'next-mdx-remote/serialize';
 import ErrorPage from 'next/error';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React from 'react';
-import { Documents, Post, SiteSettings } from '../../../studio/schema';
+import { Post, SiteSettings } from '../../../studio/schema';
 
 type PostProps = {
   siteTitle: string;
   post: {
+    content: MDXRemoteSerializeResult<
+      Record<string, unknown>,
+      Record<string, string>
+    >;
     authorName: string;
     authorImage: string;
     description: string;
     tags: string[];
   } & Post;
   preview: boolean;
-};
-
-type PostContext = {
-  preview: boolean;
-  params: { slug: string };
-};
-
-const PortableImageComponent: React.FC<any> = ({ value }) => {
-  if (!value?.asset?._ref) {
-    return null;
-  }
-  return (
-    <Image
-      src={urlForImage(value).width(320).height(240).url()}
-      alt={value.alt || ' '}
-      loading="lazy"
-      width={50}
-      height={50}
-    />
-  );
-};
-
-const ptComponents = {
-  types: {
-    image: PortableImageComponent,
-  },
+  error: unknown;
 };
 
 const Post: NextPage<PostProps> = ({
   siteTitle,
   post: initialData,
   preview,
+  error,
 }) => {
   const router = useRouter();
-
-  const { data: post } = usePreviewSubscription(postBySlugQuery, {
+  const { data: post } = usePreviewSubscription(postQuery, {
     params: { slug: initialData.slug },
     // The hook will return this on first render
     // This is why it's important to fetch *draft* content server-side!
     initialData,
     // The passed-down preview context determines whether this function does anything
-    enabled: preview,
+    // enabled: preview,
+    enabled: false,
   });
   const pageTitle = `${siteTitle} | ${post.title}`;
 
-  if (!router.isFallback && !initialData?.slug) {
+  if (error || (!router.isFallback && !initialData?.slug)) {
     return <ErrorPage statusCode={404} />;
   }
 
@@ -96,10 +72,15 @@ const Post: NextPage<PostProps> = ({
             />
           </div>
         )}
-        <PortableText value={post.body} components={ptComponents} />
+        <MDXRemote {...post.content} components={MDXComponents} />
       </article>
     </Layout>
   );
+};
+
+type PostContext = {
+  preview: boolean;
+  params: { slug: string };
 };
 
 export const getStaticProps = async ({
@@ -108,19 +89,29 @@ export const getStaticProps = async ({
 }: PostContext) => {
   // It's important to default the slug so that it doesn't return "undefined"
   const [siteMeta, post] = await Promise.all([
-    sanityClient.fetch<SiteSettings>(siteMetadataQuery),
-    getClient(preview).fetch<Documents>(postQuery, {
+    getClient(preview).fetch<SiteSettings>(siteMetadataQuery),
+    getClient(preview).fetch<Post>(postQuery, {
       slug: params.slug,
     }),
   ]);
 
-  return {
-    props: {
-      preview,
-      siteTitle: siteMeta.title,
-      post,
-    },
-  };
+  try {
+    // Then serialize to mdx formated string for hydration in components.
+    const content = await serialize(post.body);
+
+    return {
+      props: {
+        preview,
+        siteTitle: siteMeta.title,
+        post: { ...post, content },
+        error: null,
+      },
+      revalidate: 60, // 60 second revalidation
+    };
+  } catch (error) {
+    console.error(error);
+    return { props: error };
+  }
 };
 
 export const getStaticPaths = async () => {

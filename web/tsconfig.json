@@ -20,7 +20,6 @@
       "@providers/*": ["src/providers/*"],
       "@hooks/*": ["src/hooks/*"],
       "@app-types/*": ["src/types/*"],
-      "@utils/*": ["lib/utils/*"],
       "@lib/*": ["lib/*"]
     }
   },
