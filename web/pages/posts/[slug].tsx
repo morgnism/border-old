@@ -1,4 +1,4 @@
-import Layout from '@components/Layout/Layout';
+import Layout from '@components/Layout';
 import {
   allPostSlugsQuery,
   postBySlugQuery,
@@ -74,8 +74,8 @@ const Post: NextPage<PostProps> = ({
   }
 
   return (
-    <Layout title={pageTitle} description={post.description}>
-      <article>
+    <Layout title={pageTitle} description={post.description} preview={preview}>
+      <article className="relative mx-auto max-w-7xl mb-64">
         <h1>{post.title}</h1>
         <span>By {post.authorName}</span>
         {post.tags && (
