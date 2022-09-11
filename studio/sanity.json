@@ -14,7 +14,10 @@
     "@sanity/desk-tool",
     "@sanity/code-input",
     "@sanity/color-input",
-    "@andre-brdoch/sanity-plugin-schema-inspector"
+    "@andre-brdoch/sanity-plugin-schema-inspector",
+    "markdown",
+    "@sanity/production-preview",
+    "iframe-pane"
   ],
   "env": {
     "development": {
@@ -31,6 +34,10 @@
     {
       "name": "part:@sanity/desk-tool/structure",
       "path": "./parts/deskStructure"
+    },
+    {
+      "implements": "part:@sanity/production-preview/resolve-production-url",
+      "path": "./plugins/resolveProductionUrl.ts"
     }
   ]
 }

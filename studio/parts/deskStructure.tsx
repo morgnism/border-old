@@ -10,6 +10,8 @@ import {
   BiFolder,
   BiNavigation,
 } from 'react-icons/bi';
+import Iframe from 'sanity-plugin-iframe-pane';
+import resolveProductionUrl from '../plugins/resolveProductionUrl';
 
 // /deskStructure.js
 const JsonPreview = ({ document }) => (
@@ -25,6 +27,12 @@ export const getDefaultDocumentNode = ({ documentId, schemaType }) => {
     return S.document().views([
       S.view.form(),
       S.view.component(JsonPreview).title('JSON'),
+      S.view
+        .component(Iframe)
+        .options({
+          url: (doc) => resolveProductionUrl(doc),
+        })
+        .title('Preview'),
     ]);
   }
 };

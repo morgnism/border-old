@@ -1,11 +1,14 @@
 import Hero from '@components/Hero/Hero';
 import Layout from '@components/Layout/Layout';
+import SummaryPortableText from '@components/PortableText/SummaryPortableText';
 import SanityLink from '@components/SanityLink/SanityLink';
-import { sanityClient } from '@lib/sanity-client';
-import { overlayDrafts } from '@utils/overlayDrafts';
+import { allPostsAndMetaQuery, allPostsQuery } from '@lib/queries';
+import { usePreviewSubscription } from '@lib/sanity';
+import { getClient } from '@lib/sanity.server';
+import { overlayDrafts } from '@lib/utils/overlayDrafts';
+import { PortableText } from '@portabletext/react';
 import format from 'date-fns/format';
 import type { NextPage } from 'next';
-import { groq } from 'next-sanity';
 import { useRouter } from 'next/router';
 import { Post, SiteSettings } from '../../studio/schema';
 
@@ -21,9 +24,18 @@ type HomeProps = {
       slug: string;
     } & Post
   >;
+  preview: boolean;
 };
 
-const Home: NextPage<HomeProps> = ({ metaData, allPosts }) => {
+const Home: NextPage<HomeProps> = ({
+  metaData,
+  allPosts: initialAllPosts,
+  preview,
+}) => {
+  const { data: allPosts } = usePreviewSubscription(allPostsQuery, {
+    initialData: initialAllPosts,
+    enabled: preview,
+  });
   const { pathname } = useRouter();
   const homeTitle = `${metaData.title!} | Home`;
 
@@ -32,6 +44,7 @@ const Home: NextPage<HomeProps> = ({ metaData, allPosts }) => {
       title={homeTitle}
       description={metaData.description ?? ''}
       className="mx-auto max-w-7xl"
+      preview={preview}
     >
       <Hero description={metaData.description ?? ''} />
       <section
@@ -55,12 +68,12 @@ const Home: NextPage<HomeProps> = ({ metaData, allPosts }) => {
               <div className="flex flex-col flex-grow mb-5">
                 <SanityLink
                   className="text-2xl hover:text-slate-600 mb-4"
-                  href={slug ? `/post/${slug}` : external!}
+                  href={slug ? `/posts/${slug}` : external!}
                   isActive={pathname === slug}
                 >
                   {title}
                 </SanityLink>
-                <p>{summary}</p>
+                {summary && <SummaryPortableText summary={summary} />}
               </div>
               <div className="text-sm mb-2">
                 {format(new Date(publishedAt), 'MMM do, yyyy')}
@@ -83,43 +96,20 @@ const Home: NextPage<HomeProps> = ({ metaData, allPosts }) => {
   );
 };
 
-const homeMetadataQuery = groq`
-*[_type == "siteSettings"][0]{
-  title,
-  description,
-  url
-}
-`;
-
-const allPostsQuery = groq`
-*[_type == "post" && publishedAt < now()] | order(_updatedAt desc){
-  _id,
-  title,
-  "author": author->name,
-  "tags": categories[]->title,
-  "coverImage": mainImage{
-    alt,
-    "src": asset->url
-  },
-  "summary": summary[0].children[0].text,
-  "slug": slug.current,
-  external,
-  publishedAt
-}
-`;
-
-export async function getStaticProps() {
-  const metaData = await sanityClient.fetch<SiteSettings>(homeMetadataQuery);
-  const allPosts = overlayDrafts(
-    await sanityClient.fetch<Post[]>(allPostsQuery),
-  );
+export const getStaticProps = async ({ preview = false }) => {
+  const { metaData, posts } = await getClient(false).fetch<{
+    metaData: SiteSettings;
+    posts: Post[];
+  }>(allPostsAndMetaQuery);
+  const allPosts = overlayDrafts(posts);
 
   return {
     props: {
       metaData,
       allPosts,
+      preview,
     },
   };
-}
+};
 
 export default Home;

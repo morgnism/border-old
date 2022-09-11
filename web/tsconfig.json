@@ -20,8 +20,7 @@
       "@providers/*": ["src/providers/*"],
       "@hooks/*": ["src/hooks/*"],
       "@app-types/*": ["src/types/*"],
-      "@utils/*": ["src/utils/*"],
-      "@lib/*": ["src/lib/*"]
+      "@lib/*": ["lib/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

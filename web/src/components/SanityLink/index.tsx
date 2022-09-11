@@ -1,1 +1,3 @@
-export * from './SanityLink';
+import SanityLink from './SanityLink';
+
+export default SanityLink;

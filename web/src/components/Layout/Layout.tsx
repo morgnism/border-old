@@ -1,11 +1,13 @@
-import MainNav from '@components/Header/Header';
-import Head from 'next/head';
+import Alert from '@components/Alert';
+import MainNav from '@components/Header';
+import Meta from './Meta';
 
 type LayoutProps = {
   /** Provide a meaningful and SEO-friendly title for the page */
   title: string;
   /** Provide a meaningful and SEO-friendly description for the page */
   description: string;
+  preview: boolean;
   className?: string;
   children: React.ReactNode;
 };
@@ -20,23 +22,16 @@ type LayoutProps = {
 // }`;
 
 const Layout: React.FC<LayoutProps> = ({
-  title,
-  description,
+  preview,
   className = '',
   children,
+  ...props
 }) => {
   return (
     <>
-      <Head>
-        <title>{title}</title>
-
-        {/* TODO: research other meta content types to add */}
-        <meta content={description} name="description" />
-        <meta content={description} property="og:description" />
-        <meta content={description} name="twitter:description" />
-        {/* TODO: add meta for tweets */}
-      </Head>
+      <Meta {...props} />
       <div className="min-h-screen">
+        {preview && <Alert preview={preview} />}
         <MainNav />
         <main className={`mt-20 mb-52 ${className}`}>{children}</main>
         {/* TODO: add global footer */}
