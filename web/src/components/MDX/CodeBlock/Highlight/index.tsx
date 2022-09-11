@@ -18,7 +18,7 @@ const Highlight = ({ code, language = 'jsx', theme }: HighlightProps) => (
     theme={theme}
   >
     {({ className, style, tokens, getLineProps, getTokenProps }) => (
-      <pre className={className} style={style}>
+      <code className={className} style={style}>
         {tokens.map((line, i) => (
           <div key={i} {...getLineProps({ line, key: i })}>
             {line.map((token, key) => (
@@ -26,7 +26,7 @@ const Highlight = ({ code, language = 'jsx', theme }: HighlightProps) => (
             ))}
           </div>
         ))}
-      </pre>
+      </code>
     )}
   </BaseHighlight>
 );

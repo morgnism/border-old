@@ -1,3 +1,4 @@
+import Article from '@components/Article';
 import Layout from '@components/Layout';
 import MDXComponents from '@components/MDX';
 import { allPostSlugsQuery, postQuery, siteMetadataQuery } from '@lib/queries';
@@ -51,14 +52,14 @@ const Post: NextPage<PostProps> = ({
 
   return (
     <Layout title={pageTitle} description={post.description} preview={preview}>
-      <article className="relative mx-auto max-w-7xl mb-64">
-        <h1>{post.title}</h1>
+      <Article>
+        <MDXRemote {...post.content} components={MDXComponents} />
         <span>By {post.authorName}</span>
         {post.tags && (
           <ul>
             Posted in
             {post.tags.map((category) => (
-              <li key={category as unknown as string}>{category}</li>
+              <li key={category}>{category}</li>
             ))}
           </ul>
         )}
@@ -72,8 +73,7 @@ const Post: NextPage<PostProps> = ({
             />
           </div>
         )}
-        <MDXRemote {...post.content} components={MDXComponents} />
-      </article>
+      </Article>
     </Layout>
   );
 };
