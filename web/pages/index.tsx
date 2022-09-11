@@ -1,10 +1,12 @@
 import Hero from '@components/Hero/Hero';
 import Layout from '@components/Layout/Layout';
+import SummaryPortableText from '@components/PortableText/SummaryPortableText';
 import SanityLink from '@components/SanityLink/SanityLink';
 import { allPostsAndMetaQuery, allPostsQuery } from '@lib/queries';
 import { usePreviewSubscription } from '@lib/sanity';
 import { getClient } from '@lib/sanity.server';
 import { overlayDrafts } from '@lib/utils/overlayDrafts';
+import { PortableText } from '@portabletext/react';
 import format from 'date-fns/format';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
@@ -42,6 +44,7 @@ const Home: NextPage<HomeProps> = ({
       title={homeTitle}
       description={metaData.description ?? ''}
       className="mx-auto max-w-7xl"
+      preview={preview}
     >
       <Hero description={metaData.description ?? ''} />
       <section
@@ -70,7 +73,7 @@ const Home: NextPage<HomeProps> = ({
                 >
                   {title}
                 </SanityLink>
-                <p>{summary}</p>
+                {summary && <SummaryPortableText summary={summary} />}
               </div>
               <div className="text-sm mb-2">
                 {format(new Date(publishedAt), 'MMM do, yyyy')}

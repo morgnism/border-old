@@ -44,7 +44,8 @@ export const allPostsQuery = groq`
     alt,
     "src": asset->url
   },
-  "summary": summary[0].children[0].text,
+  // "summary": summary[0].children[0].text,
+  summary,
   external,
   publishedAt
 }

@@ -1,7 +1,8 @@
 import { postBySlugQuery } from '@lib/queries';
 import { previewClient } from '@lib/sanity.server';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-function redirectToPreview(res, Location) {
+function redirectToPreview(res: NextApiResponse, Location: string) {
   // Enable Preview Mode by setting the cookies
   res.setPreviewData({});
   // Redirect to the path from the fetched post
@@ -10,7 +11,10 @@ function redirectToPreview(res, Location) {
   res.end('Preview mode enabled.');
 }
 
-export default async function handler(req, res) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   if (!req.query.secret) {
     return res.status(401).json({ message: 'No secret token' });
   }
