@@ -1,5 +1,6 @@
 import Container from '@components/Container';
 import cn from 'classnames';
+import Link from 'next/link';
 
 const Alert: React.FC<{ preview: boolean }> = ({ preview }) => {
   return (
@@ -12,12 +13,11 @@ const Alert: React.FC<{ preview: boolean }> = ({ preview }) => {
       <Container>
         <div className="py-2 text-center text-sm text-black">
           This page is a preview.{' '}
-          <a
-            href="/api/exit-preview"
-            className="underline hover:text-cyan duration-200 transition-colors"
-          >
-            Click here
-          </a>{' '}
+          <Link href="/api/exit-preview">
+            <a className="underline hover:text-cyan duration-200 transition-colors">
+              Click here
+            </a>
+          </Link>{' '}
           to exit preview mode.
         </div>
       </Container>
