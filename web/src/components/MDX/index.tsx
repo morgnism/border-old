@@ -1,4 +1,5 @@
 import Callout from './Callout';
+import CodeBlock from './CodeBlock';
 
 const MDXComponents = {
   // h1: (props) => <></>,
@@ -7,7 +8,7 @@ const MDXComponents = {
   // h4: (props) => <></>,
   // hr: (props) => <></>,
   // strong: (props) => <></>,
-  // code: (props) => <></>,
+  code: CodeBlock,
   // pre: (props) => <></>,
   Callout,
 };
