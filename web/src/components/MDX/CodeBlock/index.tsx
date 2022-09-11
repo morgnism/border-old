@@ -1,7 +1,6 @@
 import { Language } from 'prism-react-renderer';
 import { useState } from 'react';
 import Highlight from './Highlight';
-// import nightOwl from 'prism-react-renderer/themes/nightOwl';
 
 type CodeBlockProps = {
   className?: string;
