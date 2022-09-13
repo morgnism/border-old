@@ -3,6 +3,6 @@
 
 echo '🏗️👷 Styling, testing and building your project before committing'
 
-npm run lint-web
+npm run lint-web:staged
 
 echo '✅'
