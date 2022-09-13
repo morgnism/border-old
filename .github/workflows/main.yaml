@@ -5,6 +5,14 @@ on:
       - develop
   pull_request:
 
+env:
+  SANITY_PROJECT_ID: ""
+  SANITY_DATASET: ""
+  SANITY_API_VERSION: ""
+  SANITY_API_READ_TOKEN: ""
+  SANITY_PREVIEW_SECRET: ""
+  PRODUCTION: false
+
 jobs:
   install-and-test:
     name: Pre-deploy Checks
@@ -22,6 +30,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+          cache: "yarn"
 
       - name: Install dependencies 📦
         run: yarn install --frozen-lockfile
