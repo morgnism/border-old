@@ -1,4 +1,5 @@
 import NextLink, { LinkProps as NextLinkProps } from 'next/link';
+import { Link, animateScroll as scroll } from 'react-scroll';
 
 export type LinkProps = {
   href: string;
@@ -8,6 +9,9 @@ export type LinkProps = {
 
 const isExternal = (href: string): boolean => href.startsWith('http');
 
+const isToc = (href: string): boolean => href.startsWith('#');
+const getTocLink = (href: string) => `${new RegExp(/[^|#].+$/).exec(href)}`;
+
 const SanityLink = ({
   href,
   children,
@@ -16,6 +20,21 @@ const SanityLink = ({
   ...props
 }: React.PropsWithChildren<LinkProps>) => {
   className = isActive ? `${className} active` : className;
+
+  if (isToc(href)) {
+    return (
+      <Link
+        aria-current={isActive ? 'page' : 'false'}
+        to={getTocLink(href)}
+        spy={true}
+        smooth={true}
+        offset={-50}
+        duration={500}
+      >
+        {children}
+      </Link>
+    );
+  }
 
   if (isExternal(href)) {
     return (

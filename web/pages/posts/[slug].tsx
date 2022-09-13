@@ -1,6 +1,8 @@
 import Article from '@components/Article';
+import BackToTopButton from '@components/BackToTopButton';
 import Layout from '@components/Layout';
 import MDXComponents from '@components/MDX';
+import { useScrollOffsetHook } from '@hooks/useScrollOffsetHook';
 import { allPostSlugsQuery, postQuery, siteMetadataQuery } from '@lib/queries';
 import { urlForImage, usePreviewSubscription } from '@lib/sanity';
 import { getClient, sanityClient } from '@lib/sanity.server';
@@ -34,6 +36,7 @@ const Post: NextPage<PostProps> = ({
   preview,
   error,
 }) => {
+  const showButton = useScrollOffsetHook();
   const router = useRouter();
   const { data: post } = usePreviewSubscription(postQuery, {
     params: { slug: initialData.slug },
@@ -73,6 +76,7 @@ const Post: NextPage<PostProps> = ({
             />
           </div>
         )}
+        {showButton && <BackToTopButton />}
       </Article>
     </Layout>
   );
