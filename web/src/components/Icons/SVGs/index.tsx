@@ -1,0 +1,15 @@
+export { ChevronUp } from './chevron-up';
+export { Clipboard } from './clipboard';
+export { DevTo } from './dev-to';
+export { Facebook } from './facebook';
+export { Laptop } from './laptop';
+export { LinkedIn } from './linked-in';
+export { Mail } from './mail';
+export { TabletTouch } from './tablet-touch';
+export { TrendingDownward } from './trending-downward';
+export { TrendingNeutral } from './trending-neutral';
+export { TrendingUpward } from './trending-upward';
+export { Twitter } from './twitter';
+export { WindowCodeBlock } from './window-code-block';
+export { YouTube } from './youtube';
+export { Quote } from './quote';
