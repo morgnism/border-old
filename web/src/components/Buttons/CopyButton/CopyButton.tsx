@@ -3,10 +3,11 @@ import React from 'react';
 
 type CopyButtonProps = {
   className: string;
+  isCopied: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-const CopyButton = ({ className, onClick }: CopyButtonProps) => (
+const CopyButton = ({ className, isCopied, onClick }: CopyButtonProps) => (
   <button
     type="button"
     className={classNames([
@@ -15,7 +16,7 @@ const CopyButton = ({ className, onClick }: CopyButtonProps) => (
     ])}
     onClick={onClick}
   >
-    Copy
+    {isCopied ? 'Copied!' : 'Copy'}
   </button>
 );
 
