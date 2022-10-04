@@ -1,5 +1,5 @@
 import Article from '@components/Article';
-import BackToTopButton from '@components/BackToTopButton';
+import { BackToTopButton } from '@components/Buttons';
 import Layout from '@components/Layout';
 import MDXComponents from '@components/MDX';
 import { useScrollOffsetHook } from '@hooks/useScrollOffsetHook';
