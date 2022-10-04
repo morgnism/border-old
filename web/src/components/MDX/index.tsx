@@ -27,6 +27,9 @@ const MDXComponents = {
     return <h4 id={id}>{children}</h4>;
   },
   code: CodeBlock,
+  pre: ({ children }: MDXGenerticProps) => (
+    <pre className="relative">{children}</pre>
+  ),
   a: ({ href, children }: MDXLinkProps) => {
     return <SanityLink href={href!}>{children}</SanityLink>;
   },

@@ -20,9 +20,12 @@ const Highlight = ({ code, language = 'jsx', theme }: HighlightProps) => (
     {({ className, style, tokens, getLineProps, getTokenProps }) => (
       <code className={className} style={style}>
         {tokens.map((line, i) => (
-          <div key={i} {...getLineProps({ line, key: i })}>
+          <div key={i} {...getLineProps({ line, key: `line${i}` })}>
             {line.map((token, key) => (
-              <span key={key} {...getTokenProps({ token, key })} />
+              <span
+                key={key}
+                {...getTokenProps({ token, key: `line${key}` })}
+              />
             ))}
           </div>
         ))}
