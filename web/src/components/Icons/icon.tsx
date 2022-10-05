@@ -1,56 +1,21 @@
 import React, { FC } from 'react';
-import {
-  Clipboard,
-  DevTo,
-  Facebook,
-  Laptop,
-  LinkedIn,
-  Mail,
-  Quote,
-  TabletTouch,
-  TrendingDownward,
-  TrendingNeutral,
-  TrendingUpward,
-  Twitter,
-  WindowCodeBlock,
-  YouTube,
-} from './SVGs';
-
-type IconMap = {
-  [key: string]: React.FC<IconProps>;
-};
-
-const iconNameMap: IconMap = {
-  'dev-to': DevTo,
-  facebook: Facebook,
-  laptop: Laptop,
-  linkedin: LinkedIn,
-  mail: Mail,
-  'tablet-touch': TabletTouch,
-  twitter: Twitter,
-  'window-code-block': WindowCodeBlock,
-  youtube: YouTube,
-  'trending-upward': TrendingUpward,
-  'trending-downward': TrendingDownward,
-  'trending-neutral': TrendingNeutral,
-  quote: Quote,
-  clipboard: Clipboard,
-};
+import { IconKeyNames, ICONS_MAP } from './icon-map';
 
 export type IconProps = {
   className?: string;
   color?: string;
   size?: number;
+  fill?: string;
 } & React.DOMAttributes<HTMLOrSVGElement>;
 
 const IconPropDefaults: IconProps = {
-  className: 'fill-current',
-  color: 'text-secondary-700',
-  size: 32,
+  className: '',
+  color: '',
+  size: 24,
 };
 
-const Icon: FC<IconProps & { name: string }> = ({ name, ...rest }) => {
-  const SVG = iconNameMap[name];
+const Icon: FC<IconProps & { name: IconKeyNames }> = ({ name, ...rest }) => {
+  const SVG = ICONS_MAP.get(name) as React.FC<IconProps>;
   return <SVG {...rest} />;
 };
 

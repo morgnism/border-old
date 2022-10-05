@@ -10,8 +10,9 @@ export const ChevronUp: React.FC<IconProps> = ({
   <svg
     width={size}
     height={size}
-    fill="none"
-    viewBox="0 0 20 20"
+    viewBox="0 0 24 24"
+    strokeWidth="1.5"
+    stroke="currentColor"
     xmlns="http://www.w3.org/2000/svg"
     className={classNames([className, color])}
     focusable="false"
