@@ -2,7 +2,7 @@ import Article from '@components/Article';
 import { BackToTopButton } from '@components/Buttons';
 import Layout from '@components/Layout';
 import MDXComponents from '@components/MDX';
-import { useScrollOffsetHook } from '@hooks/useScrollOffsetHook';
+import { useScrollOffsetHook } from '@hooks/use-scroll-offset';
 import { allPostSlugsQuery, postQuery, siteMetadataQuery } from '@lib/queries';
 import { urlForImage, usePreviewSubscription } from '@lib/sanity';
 import { getClient, sanityClient } from '@lib/sanity.server';
