@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import classNames from 'classnames';
+import { MenuButtonCloseIcon, MenuButtonOpenIcon } from './MenuButtonIcon';
 
 type MenuButtonProps = {
   isMenuOpen: boolean;
@@ -11,42 +11,14 @@ const MenuButton = ({ isMenuOpen, setIsMenuOpen }: MenuButtonProps) => {
     <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
       <button
         type="button"
-        className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+        className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
         aria-controls="mobile-menu"
         aria-expanded="false"
         onClick={() => setIsMenuOpen((prev) => !prev)}
       >
         <span className="sr-only">Open main menu</span>
-        <svg
-          className={classNames([isMenuOpen ? 'hidden' : 'block', 'h-6 w-6'])}
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth="1.5"
-          stroke="currentColor"
-          aria-hidden="true"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-          />
-        </svg>
-        <svg
-          className={classNames([isMenuOpen ? 'block' : 'hidden', 'h-6 w-6'])}
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth="1.5"
-          stroke="currentColor"
-          aria-hidden="true"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M6 18L18 6M6 6l12 12"
-          />
-        </svg>
+        <MenuButtonOpenIcon isMenuOpen={isMenuOpen} />
+        <MenuButtonCloseIcon isMenuOpen={isMenuOpen} />
       </button>
     </div>
   );
