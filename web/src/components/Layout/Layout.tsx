@@ -1,5 +1,5 @@
 import Alert from '@components/Alert';
-import MainNav from '@components/Header';
+import Header from '@components/Header';
 import Meta from './Meta';
 
 type LayoutProps = {
@@ -32,7 +32,7 @@ const Layout: React.FC<LayoutProps> = ({
       <Meta {...props} />
       <div className="min-h-screen">
         {preview && <Alert preview={preview} />}
-        <MainNav />
+        <Header />
         <main className={`mt-20 mb-52 ${className}`}>{children}</main>
         {/* TODO: add global footer */}
         {/* <Footer /> */}
