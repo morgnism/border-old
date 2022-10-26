@@ -1,5 +1,5 @@
 import { NavLink } from '@app-types/nav-link';
-import Link from 'next/link';
+import SanityLink from '@components/SanityLink';
 
 type HeaderLogoProps = {
   logoLink: NavLink;
@@ -10,7 +10,9 @@ const HeaderLogo = ({ logoLink }: HeaderLogoProps) => {
     <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
       <div className="hidden sm:ml-6 sm:block">
         <h1 className="uppercase not-italic text-4xl">
-          <Link href={logoLink.url}>{logoLink.title}</Link>
+          <SanityLink href={logoLink.url}>
+            <span className="font-bold">Border</span>.Dev
+          </SanityLink>
         </h1>
       </div>
     </div>
