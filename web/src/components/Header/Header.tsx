@@ -1,10 +1,11 @@
+import HeroBanner from '@components/Hero';
 import HeaderNav from './HeaderNav';
 
 const Header = () => {
   return (
     <header>
       <HeaderNav />
-      {/* place hero banner here */}
+      <HeroBanner />
     </header>
   );
 };

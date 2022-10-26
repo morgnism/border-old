@@ -1,13 +1,18 @@
-import React from 'react';
-
-type HeroProps = {
-  description: string;
-};
-
-const Hero: React.FC<HeroProps> = ({ description }) => (
-  <div className="grid grid-cols-12 gap-6 pt-20 pb-20 my-20">
-    <p className="col-start-4 col-span-6 text-4xl text-center">{description}</p>
-  </div>
+const HeroBanner = () => (
+  // add dark mode style "dark:bg-gray-900"
+  <section className="bg-white">
+    <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
+      {/* add dark mode style "dark:text-white" */}
+      <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6x">
+        Exploring beyond the boundaries of learning and development.
+      </h1>
+      {/* add dark mode style "dark:text-gray-400" */}
+      <p className="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48">
+        Read the latest in data web development, software engineering, best
+        practices and analytics.
+      </p>
+    </div>
+  </section>
 );
 
-export default Hero;
+export default HeroBanner;

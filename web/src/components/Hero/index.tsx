@@ -1,3 +1,3 @@
-import Hero from './Hero';
+import HeroBanner from './Hero';
 
-export default Hero;
+export default HeroBanner;
