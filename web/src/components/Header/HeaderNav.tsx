@@ -8,8 +8,8 @@ import MobileMenu from './MobileMenu';
 
 const navMenu: NavLink[] = [
   { title: 'Home', url: '/' },
-  { title: 'About', url: '/about' },
-  // { title: 'Projects', url: '/projects'},
+  // { title: 'About', url: '/about' },
+  { title: 'Projects', url: '/projects' },
 ];
 
 const HeaderNav = () => {
