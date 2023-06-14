@@ -9,6 +9,7 @@ import author from './documents/author';
 import bodyPortableText from './objects/bodyPortableText';
 import category from './documents/category';
 import post from './documents/post';
+import project from './documents/project';
 import page from './documents/page';
 import siteSettings from './documents/siteSettings';
 import navigation from './documents/navigation';
@@ -32,6 +33,7 @@ export default createSchema({
     // in the studio.
     page,
     post,
+    project,
     category,
     author,
     siteSettings,
