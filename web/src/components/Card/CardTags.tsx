@@ -7,16 +7,20 @@ type CardTags = {
 
 const CardTags = ({ tags }: CardTags) => (
   <p
-    className={classNames([tags.length ? 'mt-4' : 'mt-9', 'flex items-center'])}
+    className={classNames([
+      tags && tags.length ? 'mt-4' : 'mt-9',
+      'flex items-center',
+    ])}
   >
-    {tags.map((tag) => (
-      <span
-        key={tag}
-        className="inline-block bg-slate-100 text-gray-600 rounded-full px-3 py-1 text-sm mr-2 mb-2"
-      >
-        {tag.toLocaleLowerCase()}
-      </span>
-    ))}
+    {tags &&
+      tags.map((tag) => (
+        <span
+          key={tag}
+          className="inline-block bg-slate-100 text-gray-600 rounded-full px-3 py-1 text-sm mr-2 mb-2"
+        >
+          {tag.toLocaleLowerCase()}
+        </span>
+      ))}
   </p>
 );
 
