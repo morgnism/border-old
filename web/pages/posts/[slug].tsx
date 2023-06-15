@@ -100,7 +100,7 @@ export const getStaticProps = async ({
   ]);
 
   try {
-    // Then serialize to mdx formated string for hydration in components.
+    // Then serialize to mdx formatted string for hydration in components.
     const content = await serialize(post.body);
 
     return {

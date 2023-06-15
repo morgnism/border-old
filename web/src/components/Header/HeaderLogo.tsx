@@ -1,4 +1,4 @@
-import { NavLink } from '@app-types/nav-link';
+import { NavLink } from '@app-types/Nav-link';
 import SanityLink from '@components/SanityLink';
 
 type HeaderLogoProps = {
