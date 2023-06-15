@@ -151,6 +151,78 @@ export interface Post extends SanityDocument {
 }
 
 /**
+ * Projects
+ *
+ *
+ */
+export interface Project extends SanityDocument {
+  _type: 'project';
+
+  /**
+   * Title — `string`
+   *
+   * Keep it short, catchy, and descriptive 👌🏽
+   */
+  title?: string;
+
+  /**
+   * Slug — `slug`
+   *
+   * Hint: some frontends will require a slug to be set to be able to show the post
+   */
+  slug?: { _type: 'slug'; current: string };
+
+  /**
+   * URL — `url`
+   *
+   * Provide a URL to an externally linked post
+   */
+  external?: string;
+
+  /**
+   * Published at — `datetime`
+   *
+   * Hint: this can be used to schedule post for publishing
+   */
+  publishedAt?: string;
+
+  /**
+   * Main image — `mainImage`
+   *
+   *
+   */
+  mainImage?: MainImage;
+
+  /**
+   * Summary — `summaryPortableText`
+   *
+   * Hint: enhance SEO by including a summary
+   */
+  summary?: SummaryPortableText;
+
+  /**
+   * Author — `reference`
+   *
+   *
+   */
+  author?: SanityReference<Author>;
+
+  /**
+   * Categories — `array`
+   *
+   *
+   */
+  categories?: Array<SanityKeyedReference<Category>>;
+
+  /**
+   * Body — `markdown`
+   *
+   *
+   */
+  body?: Markdown;
+}
+
+/**
  * Categories
  *
  *
@@ -414,6 +486,7 @@ export type Link = {
 export type Documents =
   | Page
   | Post
+  | Project
   | Category
   | Author
   | SiteSettings
