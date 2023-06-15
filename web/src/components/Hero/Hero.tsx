@@ -3,7 +3,7 @@ const HeroBanner = () => (
   <section className="bg-white">
     <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
       {/* add dark mode style "dark:text-white" */}
-      <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6x">
+      <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl">
         Exploring beyond the boundaries of learning and development.
       </h1>
       {/* add dark mode style "dark:text-gray-400" */}

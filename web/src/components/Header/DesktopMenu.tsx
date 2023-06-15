@@ -1,4 +1,4 @@
-import { NavLink } from '@app-types/nav-link';
+import { NavLink } from '@app-types/Nav-link';
 import classNames from 'classnames';
 import Link from 'next/link';
 

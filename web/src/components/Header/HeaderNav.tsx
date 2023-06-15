@@ -1,4 +1,4 @@
-import { NavLink } from '@app-types/nav-link';
+import { NavLink } from '@app-types/Nav-link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import DesktopMenu from './DesktopMenu';
